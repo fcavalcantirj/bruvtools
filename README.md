@@ -8,16 +8,16 @@ bruvtools is a unified command-line interface that provides consistent deploymen
 
 ```bash
 # Deploy a Go application
-./bin/bruvtools.js deploy cnpj-enricher --dir /path/to/your/go-app
+bruvtools deploy cnpj-enricher --dir /path/to/your/go-app
 
 # View all deployed services
-./bin/bruvtools.js services
+bruvtools services
 
 # Scale your application
-./bin/bruvtools.js scale cnpj-enricher 3
+bruvtools scale cnpj-enricher 3
 
 # Check service status
-./bin/bruvtools.js status cnpj-enricher
+bruvtools status cnpj-enricher
 ```
 
 **Live Example**: We successfully deployed a Go CNPJ enricher API that scrapes Brazilian company data:
@@ -99,23 +99,70 @@ bruvtools generates **production-ready Dockerfiles** with optimizations:
 
 ## 🚀 Installation & Setup
 
+### Quick Install (Recommended)
+
+**Option 1: One-line install script**
+```bash
+curl -fsSL https://raw.githubusercontent.com/fcavalcantirj/bruvtools/main/install.sh | bash
+```
+
+**Option 2: npm global install (when published)**
+```bash
+npm install -g bruvtools
+```
+
+**Option 3: From source**
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/fcavalcantirj/bruvtools.git
 cd bruvtools
 
 # Install dependencies
 npm install
 
-# Setup environment
+# Install globally
+npm install -g .
+```
+
+### Initial Setup
+
+After installation, set up your environment:
+
+```bash
+# Create environment file (in your project directory)
 cp .env.example .env
-# Edit .env with your credentials
+# Edit .env with your CapRover password
 
-# Configure your provider
-# Edit bruvtools.yml with your machine/domain settings
+# Configure your provider (create bruvtools.yml in your project)
+cat > bruvtools.yml << EOF
+default_provider: caprover
+providers:
+  caprover: 
+    machine: your-caprover-machine-name
+    domain: your-domain.com
+projects:
+  my-project:
+    provider: caprover
+EOF
 
-# You're ready to deploy!
-./bin/bruvtools.js services
+# Test the installation
+bruvtools --help
+bruvtools services
+```
+
+### Verify Installation
+
+```bash
+# Check bruvtools is available globally
+which bruvtools
+# Should show: /usr/local/bin/bruvtools (or similar)
+
+# Test the CLI
+bruvtools --version
+# Should show: 0.1.0
+
+# View your services dashboard
+bruvtools services
 ```
 
 ## 📖 Command Reference
@@ -123,49 +170,49 @@ cp .env.example .env
 ### Service Management
 ```bash
 # View all deployed services with dashboard
-./bin/bruvtools.js services
+bruvtools services
 
 # Check individual service status
-./bin/bruvtools.js status <app-name>
+bruvtools status <app-name>
 
 # View service logs
-./bin/bruvtools.js logs <app-name> [--follow]
+bruvtools logs <app-name> [--follow]
 
 # Test service health
-./bin/bruvtools.js test <app-name>
+bruvtools test <app-name>
 ```
 
 ### Deployment Operations
 ```bash
 # Deploy from current directory
-./bin/bruvtools.js deploy <app-name>
+bruvtools deploy <app-name>
 
 # Deploy from specific directory
-./bin/bruvtools.js deploy <app-name> --dir /path/to/app
+bruvtools deploy <app-name> --dir /path/to/app
 
 # Deploy with custom port
-./bin/bruvtools.js deploy <app-name> --port 3000
+bruvtools deploy <app-name> --port 3000
 
 # Deploy with scaling
-./bin/bruvtools.js deploy <app-name> --scale 3
+bruvtools deploy <app-name> --scale 3
 ```
 
 ### Application Management
 ```bash
 # Create new application
-./bin/bruvtools.js create <app-name>
+bruvtools create <app-name>
 
 # Scale application
-./bin/bruvtools.js scale <app-name> <replicas>
+bruvtools scale <app-name> <replicas>
 
 # Restart application
-./bin/bruvtools.js restart <app-name>
+bruvtools restart <app-name>
 
 # Delete application
-./bin/bruvtools.js delete <app-name>
+bruvtools delete <app-name>
 
 # Set environment variables
-./bin/bruvtools.js env <app-name> <key> <value>
+bruvtools env <app-name> <key> <value>
 ```
 
 ## 🎯 Real-World Usage Examples
@@ -173,7 +220,7 @@ cp .env.example .env
 ### Example 1: Go API Service (CNPJ Enricher)
 ```bash
 # Deploy a Go application that serves Brazilian company data
-./bin/bruvtools.js deploy cnpj-enricher --dir /Users/username/go-projects/cnpj-enricher
+bruvtools deploy cnpj-enricher --dir /Users/username/go-projects/cnpj-enricher
 
 # The app automatically:
 # ✅ Detects Go 1.23.0 environment
@@ -189,18 +236,18 @@ curl https://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181
 ### Example 2: Node.js Application
 ```bash
 # Deploy a Node.js app with environment variables
-./bin/bruvtools.js deploy my-api --port 3000
-./bin/bruvtools.js env my-api NODE_ENV production
-./bin/bruvtools.js env my-api DATABASE_URL postgresql://...
+bruvtools deploy my-api --port 3000
+bruvtools env my-api NODE_ENV production
+bruvtools env my-api DATABASE_URL postgresql://...
 
 # Scale for production load
-./bin/bruvtools.js scale my-api 5
+bruvtools scale my-api 5
 ```
 
 ### Example 3: Development Workflow
 ```bash
 # Check what's currently deployed
-./bin/bruvtools.js services
+bruvtools services
 
 # Output:
 # 📦 CapRover Services Dashboard
@@ -215,10 +262,10 @@ curl https://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181
 #       Description: Brazilian company data API
 
 # Deploy updates
-./bin/bruvtools.js deploy cnpj-enricher
+bruvtools deploy cnpj-enricher
 
 # Monitor logs
-./bin/bruvtools.js logs cnpj-enricher --follow
+bruvtools logs cnpj-enricher --follow
 ```
 
 ## 🏗️ Architecture & Design
@@ -354,10 +401,10 @@ JWT_TOKEN_PART3=SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 ### Debugging Environment Variables
 ```bash
 # ✅ Test environment variables are properly set
-./bin/bruvtools.js env my-app TEST_VAR "hello world"
+bruvtools env my-app TEST_VAR "hello world"
 
 # ✅ Check if long tokens are being truncated
-./bin/bruvtools.js logs my-app | grep -i "token\|auth\|env"
+bruvtools logs my-app | grep -i "token\|auth\|env"
 
 # ✅ Compare local vs deployed environment
 echo $MY_LONG_TOKEN | wc -c    # Local character count
@@ -379,11 +426,11 @@ PORT=3000 go run main.go    # Should work
 go run main.go              # Should default to 80 or 8080
 
 # ✅ Deploy with bruvtools (handles PORT automatically)
-./bin/bruvtools.js deploy cnpj-enricher
+bruvtools deploy cnpj-enricher
 
 # ✅ Set additional environment variables if needed
-./bin/bruvtools.js env cnpj-enricher DEBUG true
-./bin/bruvtools.js env cnpj-enricher API_KEY your-key-here
+bruvtools env cnpj-enricher DEBUG true
+bruvtools env cnpj-enricher API_KEY your-key-here
 ```
 
 ## 🚧 Roadmap
