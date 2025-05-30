@@ -150,7 +150,7 @@ which bruvtools
 
 # Test the CLI version
 bruvtools --version
-# ✅ Should show: 0.1.0
+# ✅ Should show: 0.2.0
 
 # Test help command
 bruvtools --help
@@ -158,7 +158,7 @@ bruvtools --help
 
 # Verify npm package info
 npm list -g bruvtools
-# ✅ Should show: bruvtools@0.1.0
+# ✅ Should show: bruvtools@0.2.0
 ```
 
 ### ⚡ Quick Start (2 minutes)
@@ -284,7 +284,7 @@ npx bruvtools --help
 npm view bruvtools
 
 # ✅ Should show package info including:
-# bruvtools@0.1.0 | MIT | deps: 5 | versions: 1
+# bruvtools@0.2.0 | MIT | deps: 5 | versions: 2
 # Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything
 ```
 
@@ -594,8 +594,12 @@ bruvtools env cnpj-enricher API_KEY your-key-here
 
 ## 🚧 Roadmap
 
-### ✅ Completed (v0.1.0 - Published on npm!)
-- **✨ Official npm Package**: Published to npm registry as `bruvtools@0.1.0`
+### ✅ Completed (v0.2.0 - Interactive Setup Revolution!)
+- **🎯 Interactive CLI Setup**: Revolutionary `bruvtools init` with guided prompts
+- **🤖 Automatic File Generation**: Creates both bruvtools.yml AND .env files automatically
+- **🔧 Professional Configuration**: Provider selection, validation, environment variables
+- **⚙️ Reconfiguration Support**: `bruvtools configure` for updating existing setups
+- **✨ Official npm Package**: Published to npm registry as `bruvtools@0.2.0`
 - **🌍 Global Availability**: Anyone can install with `npm install -g bruvtools`
 - **🏷️ Professional Branding**: npm badges, comprehensive documentation, security audit passed
 - CapRover provider with full feature set
