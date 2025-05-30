@@ -4,85 +4,64 @@
 [![npm downloads](https://img.shields.io/npm/dm/bruvtools.svg)](https://www.npmjs.com/package/bruvtools)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything**
+> **Deploy microservices anywhere, any language, one CLI**
 
-bruvtools is a unified command-line interface that provides consistent deployment workflows across multiple cloud providers. No more vendor lock-in, no more switching between different tools - just one CLI to rule them all.
+**bruvtools** eliminates cloud vendor lock-in with a unified deployment experience. Deploy Node.js, Go, Python, Java, or any containerizable application to CapRover, AWS, GCP, or Kubernetes with the same simple commands.
 
-**🎉 Now Available on npm!** Install globally with `npm install -g bruvtools`
+## 📦 Installation
 
-## ⚡ Quick Demo
+**Requirements**: Node.js 16+ ([download](https://nodejs.org/))
 
 ```bash
-# Deploy a Go application
-bruvtools deploy cnpj-enricher --dir /path/to/your/go-app
+# Install bruvtools globally
+npm install -g bruvtools
 
-# View all deployed services
+# Verify installation
+bruvtools --version  # Should show: 0.2.0
+```
+
+## ⚡ Quick Start
+
+```bash
+# 1. Interactive setup (creates all config files)
+bruvtools init
+
+# 2. Deploy your app
+bruvtools deploy my-app
+
+# 3. Check your services
 bruvtools services
-
-# Scale your application
-bruvtools scale cnpj-enricher 3
-
-# Check service status
-bruvtools status cnpj-enricher
 ```
 
-**Live Example**: We successfully deployed a Go CNPJ enricher API that scrapes Brazilian company data:
-- 🌐 **Live URL**: `https://cnpj-enricher.bruvbot.com.br`
-- 🔍 **API Endpoint**: `https://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181`
-- ⚡ **Health Check**: `https://cnpj-enricher.bruvbot.com.br/` 
+**🎯 That's it!** bruvtools handles Docker builds, environment variables, and deployment automatically.
 
-## ⚠️ Critical Setup Requirements
+## 🔧 Supported Languages & Frameworks
 
-### 1. Environment Variables (REQUIRED!)
+| Language | Frameworks | Auto-Detection |
+|----------|------------|----------------|
+| **Node.js** | Express, Fastify, NestJS, Next.js | ✅ package.json |
+| **Go** | Gin, Echo, Chi, Fiber | ✅ go.mod |
+| **Python** | FastAPI, Flask, Django | ✅ requirements.txt |
+| **Java** | Spring Boot, Quarkus | ✅ pom.xml, build.gradle |
+| **PHP** | Laravel, Symfony | ✅ composer.json |
+| **Ruby** | Rails, Sinatra | ✅ Gemfile |
+| **Any** | Custom Dockerfile | ✅ Dockerfile |
 
-**⚠️ IMPORTANT**: The `.env` file with `CAPROVER_PASSWORD` is **REQUIRED** for bruvtools to work. Without it, commands will hang or fail silently.
+## ✨ Why bruvtools?
 
-Create a `.env` file from the example and set your credentials:
+✅ **Language Agnostic** - Deploy Node.js, Go, Python, Java, PHP, Ruby, .NET  
+✅ **Cloud Agnostic** - CapRover, AWS, GCP, Kubernetes, Railway  
+✅ **Zero Lock-in** - Switch providers without changing your workflow  
+✅ **Production Ready** - Optimized Dockerfiles, security hardening, scaling  
+✅ **Interactive Setup** - No manual configuration files needed  
+✅ **🎯 Environment Validation**: Prevents deployment failures early
 
-```bash
-# Copy the example
-cp .env.example .env
+## 🌐 Live Examples
 
-# Edit .env and set your CapRover password
-CAPROVER_PASSWORD=your_actual_caprover_password
-```
+🔍 **Go API**: [cnpj-enricher.bruvbot.com.br](https://cnpj-enricher.bruvbot.com.br)  
+🎯 **Try API**: [cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181](https://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181)  
 
-**Why this matters**: 
-- Without `CAPROVER_PASSWORD`, the `services` command will **hang indefinitely**
-- CapRover API calls will timeout waiting for authentication
-- Deployments will fail silently or with cryptic authentication errors
-- The CLI validates these before any API calls to prevent issues
-
-**Common symptoms of missing password**:
-- `./bin/bruvtools.js services` hangs and times out
-- CapRover API calls prompt for interactive input
-- Silent authentication failures during deployment
-
-### 2. Configuration
-
-Configure your provider settings in `bruvtools.yml`:
-
-```yaml
-default_provider: caprover
-providers:
-  caprover: 
-    machine: caprover1133onubuntu2204-s-1vcpu-2gb-amd-sfo3-01
-    domain: bruvbot.com.br
-projects:
-  bruvtools:
-    provider: caprover
-```
-
-### 3. Docker Cache Optimization
-
-bruvtools generates **production-ready Dockerfiles** with optimizations:
-
-- ✅ **Smart layer ordering**: Dependencies installed before copying source code
-- ✅ **Alpine Linux base**: Smaller images (~20MB vs 200MB+), faster builds
-- ✅ **Security hardened**: Non-root user, minimal attack surface
-- ✅ **Signal handling**: Proper process management with dumb-init
-- ✅ **Production optimized**: Uses `npm ci`, proper caching, health checks
-- ✅ **Multi-stage builds**: Clean separation of build and runtime environments
+*Real production microservice deployed with bruvtools*
 
 ## 🌟 Core Features
 
