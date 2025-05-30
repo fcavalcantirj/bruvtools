@@ -13,7 +13,7 @@ Deploy Node.js, Go, Python, Java, PHP, Ruby, or any containerizable application 
 ### 1. Install
 ```bash
 npm install -g bruvtools
-bruvtools --version  # Should show: 0.2.6
+bruvtools --version  # Should show: 0.2.7
 ```
 
 ### 2. Configure (Interactive)
@@ -124,6 +124,7 @@ bruvtools configure
 - ✅ **Interactive setup** working (`bruvtools init`) 
 - ✅ **Services dashboard** working (`bruvtools services`)
 - ✅ **App creation** working (`bruvtools create`)
+- ✅ **App management** working (`bruvtools status`, `bruvtools test`, `bruvtools list`)
 - ✅ **Manual deployment** working (tar + caprover CLI)
 - ❌ **Auto deployment** broken (`bruvtools deploy` has packaging issues)
 - 🔄 **AWS, GCP, Railway** coming soon
@@ -132,7 +133,7 @@ bruvtools configure
 
 ## 🆘 Need Help?
 
-- **Issues**: [GitHub Issues](https://github.com/username/bruvtools/issues)
+- **Issues**: [GitHub Issues](https://github.com/fcavalcantirj/bruvtools/issues)
 - **Docs**: Interactive help with `bruvtools --help`
 
 ## 🔧 Troubleshooting
