@@ -27,7 +27,22 @@ bruvtools init
 ```bash
 # Create a simple test app
 mkdir test-app && cd test-app
-echo 'console.log("Hello bruvtools!"); const http = require("http"); const server = http.createServer((req, res) => { res.writeHead(200, {"Content-Type": "text/plain"}); res.end("Hello from bruvtools!"); }); const PORT = process.env.PORT || 3000; server.listen(PORT, () => console.log(`Server running on port ${PORT}`));' > app.js
+
+# Create a working Node.js server
+cat > app.js << 'EOF'
+console.log("Hello bruvtools!");
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {"Content-Type": "text/plain"});
+  res.end("Hello from bruvtools!");
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+EOF
 
 # Deploy it
 bruvtools deploy my-test
