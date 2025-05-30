@@ -1,0 +1,43 @@
+{
+  "name": "bruvtools",
+  "version": "0.1.0",
+  "description": "Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything",
+  "main": "lib/core/cli.js",
+  "bin": {
+    "bruvtools": "./bin/bruvtools.js"
+  },
+  "scripts": {
+    "start": "node bin/bruvtools.js",
+    "test": "echo \"Tests coming soon\" && exit 0",
+    "dev": "node bin/bruvtools.js"
+  },
+  "keywords": [
+    "deployment",
+    "cloud",
+    "caprover",
+    "aws",
+    "gcp",
+    "kubernetes",
+    "cli",
+    "devops"
+  ],
+  "author": "fcavalcantirj",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "yaml": "^2.3.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fcavalcantirj/bruvtools.git"
+  },
+  "homepage": "https://github.com/fcavalcantirj/bruvtools",
+  "bugs": {
+    "url": "https://github.com/fcavalcantirj/bruvtools/issues"
+  }
+} 
