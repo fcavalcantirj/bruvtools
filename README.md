@@ -1,8 +1,14 @@
 # bruvtools 🚀
 
+[![npm version](https://badge.fury.io/js/bruvtools.svg)](https://www.npmjs.com/package/bruvtools)
+[![npm downloads](https://img.shields.io/npm/dm/bruvtools.svg)](https://www.npmjs.com/package/bruvtools)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > **Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything**
 
 bruvtools is a unified command-line interface that provides consistent deployment workflows across multiple cloud providers. No more vendor lock-in, no more switching between different tools - just one CLI to rule them all.
+
+**🎉 Now Available on npm!** Install globally with `npm install -g bruvtools`
 
 ## ⚡ Quick Demo
 
@@ -104,21 +110,20 @@ bruvtools generates **production-ready Dockerfiles** with optimizations:
 bruvtools requires:
 - **Node.js** >= 16.0.0 ([download here](https://nodejs.org/))
 - **npm** (comes with Node.js)
-- **Git** (for source installation)
 
 ### Quick Install (Recommended)
 
-**🎯 Option 1: One-line install script (easiest)**
-```bash
-curl -fsSL https://raw.githubusercontent.com/fcavalcantirj/bruvtools/main/install.sh | bash
-```
-*This script automatically checks requirements, downloads, and installs bruvtools globally.*
-
-**📦 Option 2: npm global install (when published to npm)**
+**🎯 Option 1: npm global install (recommended - now live!)**
 ```bash
 npm install -g bruvtools
 ```
-*Note: Not yet published to npm registry. Use Option 1 or 3 for now.*
+*bruvtools is now officially published on npm! This is the fastest and most reliable installation method.*
+
+**⚡ Option 2: One-line install script**
+```bash
+curl -fsSL https://raw.githubusercontent.com/fcavalcantirj/bruvtools/main/install.sh | bash
+```
+*Alternative installation method that downloads and installs from source.*
 
 **🔧 Option 3: From source (for developers)**
 ```bash
@@ -141,7 +146,7 @@ cd .. && rm -rf bruvtools
 ```bash
 # Check bruvtools is available globally
 which bruvtools
-# ✅ Should show: /usr/local/bin/bruvtools (or similar)
+# ✅ Should show: /usr/local/bin/bruvtools (or similar npm global path)
 
 # Test the CLI version
 bruvtools --version
@@ -150,6 +155,31 @@ bruvtools --version
 # Test help command
 bruvtools --help
 # ✅ Should show: Usage: bruvtools [options] [command]
+
+# Verify npm package info
+npm list -g bruvtools
+# ✅ Should show: bruvtools@0.1.0
+```
+
+### ⚡ Quick Start (2 minutes)
+
+Once installed, get started immediately:
+
+```bash
+# 1. Create a new directory for testing
+mkdir my-test-app && cd my-test-app
+
+# 2. Create a simple Node.js app
+echo 'console.log("Hello bruvtools!"); const http = require("http"); const server = http.createServer((req, res) => { res.writeHead(200, {"Content-Type": "text/plain"}); res.end("Hello from bruvtools!"); }); const PORT = process.env.PORT || 3000; server.listen(PORT, () => console.log(`Server running on port ${PORT}`));' > app.js
+
+# 3. Initialize bruvtools (creates bruvtools.yml)
+bruvtools init
+
+# 4. Deploy your app
+bruvtools deploy my-test-app
+
+# 5. Check your deployed services
+bruvtools services
 ```
 
 ### ⚙️ Initial Setup
@@ -185,19 +215,23 @@ bruvtools services
 
 **Command not found: bruvtools**
 ```bash
-# Check if npm bin directory is in PATH
+# Option 1: Reinstall from npm (recommended)
+npm uninstall -g bruvtools
+npm install -g bruvtools
+
+# Option 2: Check if npm bin directory is in PATH
 echo $PATH | grep npm
 
-# Add npm bin to PATH (add to ~/.bashrc or ~/.zshrc)
+# Option 3: Add npm bin to PATH (add to ~/.bashrc or ~/.zshrc)
 export PATH="$(npm bin -g):$PATH"
 
-# Or reinstall with sudo (if needed)
+# Option 4: Use sudo if needed (macOS/Linux)
 sudo npm install -g bruvtools
 ```
 
-**Permission denied during installation**
+**Permission denied during npm installation**
 ```bash
-# Option 1: Use npm prefix (recommended)
+# Option 1: Configure npm to use different directory (recommended)
 mkdir ~/.npm-global
 npm config set prefix '~/.npm-global'
 export PATH=~/.npm-global/bin:$PATH
@@ -205,6 +239,19 @@ npm install -g bruvtools
 
 # Option 2: Use sudo (if necessary)
 sudo npm install -g bruvtools
+
+# Option 3: Use npx for one-time usage
+npx bruvtools --help
+```
+
+**Package not found on npm**
+```bash
+# Verify bruvtools is available on npm
+npm view bruvtools
+
+# ✅ Should show package info including:
+# bruvtools@0.1.0 | MIT | deps: 5 | versions: 1
+# Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything
 ```
 
 **Node.js version too old**
@@ -489,20 +536,26 @@ bruvtools env cnpj-enricher API_KEY your-key-here
 
 ## 🚧 Roadmap
 
-### ✅ Completed
+### ✅ Completed (v0.1.0 - Published on npm!)
+- **✨ Official npm Package**: Published to npm registry as `bruvtools@0.1.0`
+- **🌍 Global Availability**: Anyone can install with `npm install -g bruvtools`
+- **🏷️ Professional Branding**: npm badges, comprehensive documentation, security audit passed
 - CapRover provider with full feature set
 - Docker image optimization and caching
-- Environment variable validation
-- Services dashboard command
-- Real-world Go application deployment
-- Production-ready Dockerfile generation
+- Environment variable validation and debugging guides
+- Services dashboard command with beautiful CLI output
+- Real-world Go application deployment (live at cnpj-enricher.bruvbot.com.br)
+- Production-ready Dockerfile generation with Alpine Linux and security hardening
+- Global CLI installation with professional user experience
+- Comprehensive documentation with live examples and troubleshooting
 
-### 🔄 In Progress
+### 🔄 In Progress (v0.2.0)
 - Enhanced error handling and recovery
-- Configuration validation and migration
+- Configuration validation and migration  
 - Provider health checks
+- Automated testing and CI/CD pipeline
 
-### 📋 Planned
+### 📋 Planned (Future Versions)
 - **AWS Provider**: ECS, Lambda, App Runner support
 - **GCP Provider**: Cloud Run, GKE integration  
 - **Railway Provider**: Simple deployments
@@ -510,6 +563,7 @@ bruvtools env cnpj-enricher API_KEY your-key-here
 - **CI/CD Integration**: GitHub Actions, GitLab CI templates
 - **Monitoring**: Built-in metrics and alerting
 - **Database Management**: Provider-agnostic database operations
+- **Plugin Marketplace**: Community-contributed providers
 
 ## 🤝 Contributing
 
