@@ -172,8 +172,16 @@ curl http://your-app.your-domain.com
 
 ## 🌐 Live Example
 
-🔍 **API**: [cnpj-enricher.bruvbot.com.br](https://cnpj-enricher.bruvbot.com.br)  
+🔍 **API**: [cnpj-enricher.bruvbot.com.br](http://cnpj-enricher.bruvbot.com.br)  
 *Real production microservice deployed with bruvtools*
+
+**Try it live:**
+```bash
+# Get company information by CNPJ (Brazilian tax ID)
+curl "http://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181"
+
+# Example response: JSON with company details, revenue, address, partners, etc.
+```
 
 ## 📋 Common Commands
 
