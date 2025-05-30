@@ -27,7 +27,9 @@ bruvtools is a unified command-line interface that provides consistent deploymen
 
 ## ⚠️ Critical Setup Requirements
 
-### 1. Environment Variables
+### 1. Environment Variables (REQUIRED!)
+
+**⚠️ IMPORTANT**: The `.env` file with `CAPROVER_PASSWORD` is **REQUIRED** for bruvtools to work. Without it, commands will hang or fail silently.
 
 Create a `.env` file from the example and set your credentials:
 
@@ -39,7 +41,16 @@ cp .env.example .env
 CAPROVER_PASSWORD=your_actual_caprover_password
 ```
 
-**Why this matters**: Without proper environment variables, deployments will fail silently or with cryptic authentication errors. The CLI validates these before any API calls.
+**Why this matters**: 
+- Without `CAPROVER_PASSWORD`, the `services` command will **hang indefinitely**
+- CapRover API calls will timeout waiting for authentication
+- Deployments will fail silently or with cryptic authentication errors
+- The CLI validates these before any API calls to prevent issues
+
+**Common symptoms of missing password**:
+- `./bin/bruvtools.js services` hangs and times out
+- CapRover API calls prompt for interactive input
+- Silent authentication failures during deployment
 
 ### 2. Configuration
 
@@ -323,6 +334,35 @@ debug = os.environ.get('DEBUG', 'false').lower() == 'true'
 - **Missing variables**: Environment variables set in CapRover UI might not reach the container
 - **Override behavior**: CapRover might override your environment variables
 - **Container restart**: Variables might be lost during container restarts
+- **⚠️ Long token truncation**: Long environment variable values (JWT tokens, API keys, connection strings) may get cut off silently, causing mysterious authentication failures
+
+### Token Length Workarounds
+```bash
+# ❌ PROBLEMATIC: Very long tokens might get truncated
+JWT_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+# ✅ BETTER: Split long values or use files
+JWT_TOKEN_PART1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+JWT_TOKEN_PART2=eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+JWT_TOKEN_PART3=SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+# ✅ BEST: Use file mounting for very long secrets
+# Set in your application:
+# token := os.Getenv("JWT_TOKEN_PART1") + os.Getenv("JWT_TOKEN_PART2") + os.Getenv("JWT_TOKEN_PART3")
+```
+
+### Debugging Environment Variables
+```bash
+# ✅ Test environment variables are properly set
+./bin/bruvtools.js env my-app TEST_VAR "hello world"
+
+# ✅ Check if long tokens are being truncated
+./bin/bruvtools.js logs my-app | grep -i "token\|auth\|env"
+
+# ✅ Compare local vs deployed environment
+echo $MY_LONG_TOKEN | wc -c    # Local character count
+# vs checking in container logs
+```
 
 ### bruvtools Mitigation
 bruvtools helps by:
