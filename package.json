@@ -1,6 +1,6 @@
 {
   "name": "bruvtools",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything",
   "main": "lib/core/cli.js",
   "bin": {

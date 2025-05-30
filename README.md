@@ -34,8 +34,7 @@ cd bruvtools/examples/hello-world
 
 # Step 2: Test locally to verify it works
 node server.js &
-sleep 2
-curl http://localhost:3000  # Should show: 🎉 HELLO FROM BRUVTOOLS - ACTUALLY WORKING!
+sleep 2 && curl http://localhost:3000  # Should show: 🎉 HELLO FROM BRUVTOOLS - ACTUALLY WORKING!
 kill %1  # Stop local server
 
 # Step 3: Setup bruvtools configuration
