@@ -55,7 +55,7 @@ bruvtools create my-hello-app
 
 # Step 5: Deploy using manual method (until bruvtools deploy is fixed)
 tar -czf deploy.tar.gz .
-caprover deploy --caproverName YOUR-CAPROVER-MACHINE --appName my-hello-app --tarFile deploy.tar.gz
+bruvtools deploy --caproverName YOUR-CAPROVER-MACHINE --appName my-hello-app --tarFile deploy.tar.gz
 
 # Step 6: Test your live deployment
 curl http://my-hello-app.YOUR-DOMAIN.com
@@ -84,6 +84,43 @@ Copy the working example structure:
 cp examples/hello-world/package.json your-project/
 cp examples/hello-world/captain-definition your-project/
 # Modify server.js for your needs (keep PORT handling!)
+```
+
+## 🪟 Windows PowerShell Support
+
+bruvtools works on Windows PowerShell with some considerations:
+
+**✅ What Works:**
+- ✅ All `bruvtools` commands (`init`, `create`, `status`, `test`, `services`)
+- ✅ CapRover integration (requires CapRover CLI installed)
+- ✅ Configuration and setup
+
+**⚠️ Windows Requirements:**
+```powershell
+# 1. Install CapRover CLI (required for deployments)
+npm install -g caprover
+
+# 2. For manual deployments, use PowerShell alternatives:
+# Instead of: tar -czf deploy.tar.gz .
+Compress-Archive -Path . -DestinationPath deploy.zip
+
+# 3. For testing apps, use PowerShell instead of curl:
+# Instead of: curl http://app.domain.com  
+Invoke-WebRequest http://app.domain.com
+```
+
+**📝 Windows Deployment Process:**
+```powershell
+# Step 1-4: Same as Linux/Mac (bruvtools commands work identically)
+bruvtools init
+bruvtools create my-app
+
+# Step 5: Windows-specific packaging
+Compress-Archive -Path . -DestinationPath deploy.zip
+# Then use CapRover dashboard to upload deploy.zip manually
+
+# Step 6: Test with PowerShell
+Invoke-WebRequest http://my-app.your-domain.com
 ```
 
 ## 🔧 Supported Languages
@@ -161,9 +198,19 @@ ls -la package.json server.js captain-definition
 ```
 
 **❌ "curl: command not found" (Windows)**
-```bash
+```powershell
 # Use PowerShell instead:
 Invoke-WebRequest http://your-app.your-domain.com
+
+# Or install curl for Windows:
+# Download from: https://curl.se/windows/
+```
+
+**❌ "tar: command not found" (Windows)**
+```powershell
+# Use PowerShell Compress-Archive instead:
+Compress-Archive -Path . -DestinationPath deploy.zip
+# Then upload deploy.zip via CapRover dashboard
 ```
 
 **❌ Shows default CapRover page instead of your app**
