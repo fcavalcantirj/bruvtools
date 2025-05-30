@@ -13,7 +13,7 @@ Deploy Node.js, Go, Python, Java, PHP, Ruby, or any containerizable application 
 ### 1. Install
 ```bash
 npm install -g bruvtools
-bruvtools --version  # Should show: 0.2.1
+bruvtools --version  # Should show: 0.2.2
 ```
 
 ### 2. Configure (Interactive)
