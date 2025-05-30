@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/bruvtools.svg)](https://www.npmjs.com/package/bruvtools)
 [![npm downloads](https://img.shields.io/npm/dm/bruvtools.svg)](https://www.npmjs.com/package/bruvtools)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/bruvtools)](https://www.npmjs.com/package/bruvtools)
+[![Node.js version](https://img.shields.io/node/v/bruvtools)](https://www.npmjs.com/package/bruvtools)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > **Deploy microservices anywhere, any language, one CLI**
@@ -15,6 +17,8 @@ Deploy Node.js, Go, Python, Java, PHP, Ruby, or any containerizable application 
 npm install -g bruvtools
 bruvtools --version  # Should show: 0.2.7
 ```
+
+> 🆕 **v0.2.7 Updates**: Removed hardcoded defaults, improved user experience, fixed interactive prompts
 
 ### 2. Configure (Interactive)
 ```bash
