@@ -15,14 +15,16 @@ Deploy Node.js, Go, Python, Java, PHP, Ruby, or any containerizable application 
 ### 1. Install
 ```bash
 npm install -g bruvtools
-bruvtools --version  # Should show: 0.2.8
+bruvtools --version  # Should show: 0.2.9
 ```
 
-> 🆕 **v0.2.8 Updates**: Fixed Windows PowerShell compatibility! All commands now work properly on Windows.
+> 🆕 **v0.2.9 Updates**: Fixed Windows PowerShell compatibility! Validates CapRover CLI during init!
+> ✅ **New**: Validates CapRover CLI installation during `bruvtools init` to prevent deployment issues.
 
 ### 2. Configure (Interactive)
 ```bash
 bruvtools init
+# Now checks if CapRover CLI is installed first!
 # Asks everything: provider, credentials, project settings
 # Creates bruvtools.yml and .env automatically
 ```
@@ -88,7 +90,7 @@ cp examples/hello-world/captain-definition your-project/
 
 ## 🪟 Windows PowerShell Support
 
-✅ **Fixed in v0.2.8!** bruvtools now works seamlessly on Windows PowerShell.
+✅ **Fixed in v0.2.9!** bruvtools now works seamlessly on Windows PowerShell.
 
 **✅ What Works Out of the Box:**
 - ✅ All `bruvtools` commands (`init`, `create`, `status`, `test`, `services`)
@@ -102,7 +104,7 @@ cp examples/hello-world/captain-definition your-project/
 npm install -g bruvtools caprover
 
 # 2. Verify installation
-bruvtools --version  # Should show: 0.2.8
+bruvtools --version  # Should show: 0.2.9
 caprover --version   # Should show: 2.x.x
 
 # 3. Use normally (same as Mac/Linux)
@@ -122,7 +124,7 @@ Compress-Archive -Path . -DestinationPath deploy.zip
 - Use `npx caprover --version` to test CapRover CLI
 - Check that both tools are in PATH: `where bruvtools caprover`
 
-**❌ "spawn caprover ENOENT" (Windows - Fixed in v0.2.8)**
+**❌ "spawn caprover ENOENT" (Windows - Fixed in v0.2.9)**
 ```powershell
 # If still occurring, ensure CapRover CLI is installed:
 npm install -g caprover
@@ -131,7 +133,7 @@ npm install -g caprover
 
 **❌ "curl: command not found" (Windows)**
 ```powershell
-# bruvtools test command should work in v0.2.8
+# bruvtools test command should work in v0.2.9
 # But for manual testing, use PowerShell:
 Invoke-WebRequest http://your-app.your-domain.com
 
@@ -199,7 +201,8 @@ bruvtools configure
 - ✅ **Services dashboard** working (`bruvtools services`)
 - ✅ **App creation** working (`bruvtools create`)
 - ✅ **App management** working (`bruvtools status`, `bruvtools test`, `bruvtools list`)
-- ✅ **Windows PowerShell** fully supported (v0.2.8+)
+- ✅ **Windows PowerShell** fully supported (v0.2.9+)
+- ✅ **CapRover CLI validation** during init (v0.2.9+)
 - ✅ **Manual deployment** working (tar + caprover CLI)
 - ❌ **Auto deployment** broken (`bruvtools deploy` has packaging issues)
 - 🔄 **AWS, GCP, Railway** coming soon
@@ -231,4 +234,4 @@ bruvtools create your-app-name
 ls -la package.json server.js captain-definition
 ```
 
-**❌ "spawn caprover ENOENT" (Windows - Fixed in v0.2.8)**
+**❌ "spawn caprover ENOENT" (Windows - Fixed in v0.2.9)**
