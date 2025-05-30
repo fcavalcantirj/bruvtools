@@ -4,12 +4,19 @@
   "description": "Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything",
   "main": "lib/core/cli.js",
   "bin": {
-    "bruvtools": "./bin/bruvtools.js"
+    "bruvtools": "bin/bruvtools.js"
   },
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md",
+    ".env.example"
+  ],
   "scripts": {
     "start": "node bin/bruvtools.js",
     "test": "echo \"Tests coming soon\" && exit 0",
-    "dev": "node bin/bruvtools.js"
+    "dev": "node bin/bruvtools.js",
+    "prepublishOnly": "echo 'Publishing bruvtools to npm...' && npm test"
   },
   "keywords": [
     "deployment",
@@ -19,9 +26,19 @@
     "gcp",
     "kubernetes",
     "cli",
-    "devops"
+    "devops",
+    "docker",
+    "container",
+    "paas",
+    "heroku-alternative",
+    "vercel-alternative",
+    "universal-deployment"
   ],
-  "author": "fcavalcantirj",
+  "author": {
+    "name": "fcavalcantirj",
+    "email": "felipecavalcantirj@gmail.com",
+    "url": "https://github.com/fcavalcantirj"
+  },
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
@@ -35,10 +52,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fcavalcantirj/bruvtools.git"
+    "url": "git+https://github.com/fcavalcantirj/bruvtools.git"
   },
   "homepage": "https://github.com/fcavalcantirj/bruvtools",
   "bugs": {
     "url": "https://github.com/fcavalcantirj/bruvtools/issues"
+  },
+  "preferGlobal": true,
+  "publishConfig": {
+    "access": "public"
   }
 }

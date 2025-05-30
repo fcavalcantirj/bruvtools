@@ -99,19 +99,28 @@ bruvtools generates **production-ready Dockerfiles** with optimizations:
 
 ## 🚀 Installation & Setup
 
+### Prerequisites
+
+bruvtools requires:
+- **Node.js** >= 16.0.0 ([download here](https://nodejs.org/))
+- **npm** (comes with Node.js)
+- **Git** (for source installation)
+
 ### Quick Install (Recommended)
 
-**Option 1: One-line install script**
+**🎯 Option 1: One-line install script (easiest)**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/fcavalcantirj/bruvtools/main/install.sh | bash
 ```
+*This script automatically checks requirements, downloads, and installs bruvtools globally.*
 
-**Option 2: npm global install (when published)**
+**📦 Option 2: npm global install (when published to npm)**
 ```bash
 npm install -g bruvtools
 ```
+*Note: Not yet published to npm registry. Use Option 1 or 3 for now.*
 
-**Option 3: From source**
+**🔧 Option 3: From source (for developers)**
 ```bash
 # Clone the repository
 git clone https://github.com/fcavalcantirj/bruvtools.git
@@ -122,18 +131,40 @@ npm install
 
 # Install globally
 npm install -g .
+
+# Clean up (optional)
+cd .. && rm -rf bruvtools
 ```
 
-### Initial Setup
-
-After installation, set up your environment:
+### 🔍 Verify Installation
 
 ```bash
-# Create environment file (in your project directory)
-cp .env.example .env
-# Edit .env with your CapRover password
+# Check bruvtools is available globally
+which bruvtools
+# ✅ Should show: /usr/local/bin/bruvtools (or similar)
 
-# Configure your provider (create bruvtools.yml in your project)
+# Test the CLI version
+bruvtools --version
+# ✅ Should show: 0.1.0
+
+# Test help command
+bruvtools --help
+# ✅ Should show: Usage: bruvtools [options] [command]
+```
+
+### ⚙️ Initial Setup
+
+After successful installation, configure bruvtools for your projects:
+
+```bash
+# 1. Navigate to your project directory
+cd /path/to/your/project
+
+# 2. Create environment file with your CapRover credentials
+cp .env.example .env
+# Edit .env and set: CAPROVER_PASSWORD=your_actual_password
+
+# 3. Create bruvtools configuration
 cat > bruvtools.yml << EOF
 default_provider: caprover
 providers:
@@ -141,28 +172,51 @@ providers:
     machine: your-caprover-machine-name
     domain: your-domain.com
 projects:
-  my-project:
+  $(basename $(pwd)):
     provider: caprover
 EOF
 
-# Test the installation
-bruvtools --help
+# 4. Test the setup
 bruvtools services
+# ✅ Should show: 📦 CapRover Services Dashboard
 ```
 
-### Verify Installation
+### 🆘 Troubleshooting Installation
 
+**Command not found: bruvtools**
 ```bash
-# Check bruvtools is available globally
-which bruvtools
-# Should show: /usr/local/bin/bruvtools (or similar)
+# Check if npm bin directory is in PATH
+echo $PATH | grep npm
 
-# Test the CLI
-bruvtools --version
-# Should show: 0.1.0
+# Add npm bin to PATH (add to ~/.bashrc or ~/.zshrc)
+export PATH="$(npm bin -g):$PATH"
 
-# View your services dashboard
-bruvtools services
+# Or reinstall with sudo (if needed)
+sudo npm install -g bruvtools
+```
+
+**Permission denied during installation**
+```bash
+# Option 1: Use npm prefix (recommended)
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+export PATH=~/.npm-global/bin:$PATH
+npm install -g bruvtools
+
+# Option 2: Use sudo (if necessary)
+sudo npm install -g bruvtools
+```
+
+**Node.js version too old**
+```bash
+# Check current version
+node --version
+
+# Install latest Node.js from https://nodejs.org/
+# Or use node version manager:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+nvm install node
+nvm use node
 ```
 
 ## 📖 Command Reference
