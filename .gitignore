@@ -64,6 +64,9 @@ jspm_packages/
 .env.test.local
 .env.production.local
 
+# Exception: Allow .env.example for documentation
+!.env.example
+
 # parcel-bundler cache
 .cache
 .parcel-cache

@@ -4,6 +4,29 @@
 
 bruvtools is a unified command-line interface that provides consistent deployment workflows across multiple cloud providers. No more vendor lock-in, no more switching between different tools - just one CLI to rule them all.
 
+## ⚠️ Critical Setup Requirements
+
+### Environment Variables
+
+Before using bruvtools, you **MUST** set these environment variables:
+
+```bash
+# CapRover Authentication
+export CAPROVER_PASSWORD="your_caprover_password_here"
+```
+
+**Why this matters**: Without proper environment variables, deployments will fail silently or with cryptic authentication errors. The CLI will now validate these before any API calls.
+
+### Docker Cache Optimization
+
+bruvtools generates optimized Dockerfiles that prevent common cache issues:
+
+- ✅ **Layer ordering**: Dependencies are installed before copying source code
+- ✅ **Alpine Linux**: Smaller images, faster builds
+- ✅ **Security**: Non-root user for container execution
+- ✅ **Signal handling**: Proper process management with dumb-init
+- ✅ **Production optimized**: Uses `npm ci` instead of `npm install`
+
 ## 🌟 Features
 
 - **Multi-Provider Support**: CapRover, AWS, GCP, Railway, Kubernetes (coming soon)
