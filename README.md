@@ -88,40 +88,73 @@ cp examples/hello-world/captain-definition your-project/
 
 ## 🪟 Windows PowerShell Support
 
-bruvtools works on Windows PowerShell with some considerations:
+✅ **Fixed in v0.2.8!** bruvtools now works seamlessly on Windows PowerShell.
 
-**✅ What Works:**
+**✅ What Works Out of the Box:**
 - ✅ All `bruvtools` commands (`init`, `create`, `status`, `test`, `services`)
-- ✅ CapRover integration (requires CapRover CLI installed)
-- ✅ Configuration and setup
+- ✅ CapRover integration (after installing CapRover CLI)
+- ✅ Configuration and setup (identical to Mac/Linux)
+- ✅ App creation and management
 
-**⚠️ Windows Requirements:**
+**📦 Quick Windows Setup:**
 ```powershell
-# 1. Install CapRover CLI (required for deployments)
-npm install -g caprover
+# 1. Install both tools
+npm install -g bruvtools caprover
 
-# 2. For manual deployments, use PowerShell alternatives:
-# Instead of: tar -czf deploy.tar.gz .
-Compress-Archive -Path . -DestinationPath deploy.zip
+# 2. Verify installation
+bruvtools --version  # Should show: 0.2.8
+caprover --version   # Should show: 2.x.x
 
-# 3. For testing apps, use PowerShell instead of curl:
-# Instead of: curl http://app.domain.com  
-Invoke-WebRequest http://app.domain.com
-```
-
-**📝 Windows Deployment Process:**
-```powershell
-# Step 1-4: Same as Linux/Mac (bruvtools commands work identically)
+# 3. Use normally (same as Mac/Linux)
 bruvtools init
 bruvtools create my-app
-
-# Step 5: Windows-specific packaging
-Compress-Archive -Path . -DestinationPath deploy.zip
-# Then use CapRover dashboard to upload deploy.zip manually
-
-# Step 6: Test with PowerShell
-Invoke-WebRequest http://my-app.your-domain.com
 ```
+
+**⚠️ Manual Deployment (until bruvtools deploy is fixed):**
+```powershell
+# For deployments, still use manual method:
+Compress-Archive -Path . -DestinationPath deploy.zip
+# Then upload via CapRover dashboard
+```
+
+**🔧 If Still Having Issues:**
+- Restart PowerShell after installing npm packages
+- Use `npx caprover --version` to test CapRover CLI
+- Check that both tools are in PATH: `where bruvtools caprover`
+
+**❌ "spawn caprover ENOENT" (Windows - Fixed in v0.2.8)**
+```powershell
+# If still occurring, ensure CapRover CLI is installed:
+npm install -g caprover
+# Restart PowerShell and try again
+```
+
+**❌ "curl: command not found" (Windows)**
+```powershell
+# bruvtools test command should work in v0.2.8
+# But for manual testing, use PowerShell:
+Invoke-WebRequest http://your-app.your-domain.com
+
+# Or install curl for Windows:
+# Download from: https://curl.se/windows/
+```
+
+**❌ "tar: command not found" (Windows)**
+```powershell
+# Use PowerShell Compress-Archive instead:
+Compress-Archive -Path . -DestinationPath deploy.zip
+# Then upload deploy.zip via CapRover dashboard
+```
+
+**❌ Shows default CapRover page instead of your app**
+```bash
+# Wait 2-3 minutes for deployment to complete, then try again
+curl http://your-app.your-domain.com
+```
+
+---
+
+**Requirements**: Node.js 16+ • **License**: MIT
 
 ## 🔧 Supported Languages
 
@@ -166,6 +199,7 @@ bruvtools configure
 - ✅ **Services dashboard** working (`bruvtools services`)
 - ✅ **App creation** working (`bruvtools create`)
 - ✅ **App management** working (`bruvtools status`, `bruvtools test`, `bruvtools list`)
+- ✅ **Windows PowerShell** fully supported (v0.2.8+)
 - ✅ **Manual deployment** working (tar + caprover CLI)
 - ❌ **Auto deployment** broken (`bruvtools deploy` has packaging issues)
 - 🔄 **AWS, GCP, Railway** coming soon
@@ -197,28 +231,4 @@ bruvtools create your-app-name
 ls -la package.json server.js captain-definition
 ```
 
-**❌ "curl: command not found" (Windows)**
-```powershell
-# Use PowerShell instead:
-Invoke-WebRequest http://your-app.your-domain.com
-
-# Or install curl for Windows:
-# Download from: https://curl.se/windows/
-```
-
-**❌ "tar: command not found" (Windows)**
-```powershell
-# Use PowerShell Compress-Archive instead:
-Compress-Archive -Path . -DestinationPath deploy.zip
-# Then upload deploy.zip via CapRover dashboard
-```
-
-**❌ Shows default CapRover page instead of your app**
-```bash
-# Wait 2-3 minutes for deployment to complete, then try again
-curl http://your-app.your-domain.com
-```
-
----
-
-**Requirements**: Node.js 16+ • **License**: MIT
+**❌ "spawn caprover ENOENT" (Windows - Fixed in v0.2.8)**
