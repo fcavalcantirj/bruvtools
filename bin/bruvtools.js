@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+// Load environment variables from .env file
+require('dotenv').config();
+
+const { program } = require('commander');
+
 /**
  * bruvtools - Universal Cloud Deployment CLI
  * Deploy Anywhere, Manage Everything

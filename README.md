@@ -4,210 +4,393 @@
 
 bruvtools is a unified command-line interface that provides consistent deployment workflows across multiple cloud providers. No more vendor lock-in, no more switching between different tools - just one CLI to rule them all.
 
-## ⚠️ Critical Setup Requirements
-
-### Environment Variables
-
-Before using bruvtools, you **MUST** set these environment variables:
+## ⚡ Quick Demo
 
 ```bash
-# CapRover Authentication
-export CAPROVER_PASSWORD="your_caprover_password_here"
+# Deploy a Go application
+./bin/bruvtools.js deploy cnpj-enricher --dir /path/to/your/go-app
+
+# View all deployed services
+./bin/bruvtools.js services
+
+# Scale your application
+./bin/bruvtools.js scale cnpj-enricher 3
+
+# Check service status
+./bin/bruvtools.js status cnpj-enricher
 ```
 
-**Why this matters**: Without proper environment variables, deployments will fail silently or with cryptic authentication errors. The CLI will now validate these before any API calls.
+**Live Example**: We successfully deployed a Go CNPJ enricher API that scrapes Brazilian company data:
+- 🌐 **Live URL**: `https://cnpj-enricher.bruvbot.com.br`
+- 🔍 **API Endpoint**: `https://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181`
+- ⚡ **Health Check**: `https://cnpj-enricher.bruvbot.com.br/` 
 
-### Docker Cache Optimization
+## ⚠️ Critical Setup Requirements
 
-bruvtools generates optimized Dockerfiles that prevent common cache issues:
+### 1. Environment Variables
 
-- ✅ **Layer ordering**: Dependencies are installed before copying source code
-- ✅ **Alpine Linux**: Smaller images, faster builds
-- ✅ **Security**: Non-root user for container execution
-- ✅ **Signal handling**: Proper process management with dumb-init
-- ✅ **Production optimized**: Uses `npm ci` instead of `npm install`
-
-## 🌟 Features
-
-- **Multi-Provider Support**: CapRover, AWS, GCP, Railway, Kubernetes (coming soon)
-- **Unified Interface**: Same commands work across all providers
-- **Configuration Management**: Global and project-specific configs
-- **Plugin Architecture**: Easy to extend with new providers
-- **Zero Vendor Lock-in**: Switch providers without changing your workflow
-
-## 🔥 Quick Start
+Create a `.env` file from the example and set your credentials:
 
 ```bash
+# Copy the example
+cp .env.example .env
+
+# Edit .env and set your CapRover password
+CAPROVER_PASSWORD=your_actual_caprover_password
+```
+
+**Why this matters**: Without proper environment variables, deployments will fail silently or with cryptic authentication errors. The CLI validates these before any API calls.
+
+### 2. Configuration
+
+Configure your provider settings in `bruvtools.yml`:
+
+```yaml
+default_provider: caprover
+providers:
+  caprover: 
+    machine: caprover1133onubuntu2204-s-1vcpu-2gb-amd-sfo3-01
+    domain: bruvbot.com.br
+projects:
+  bruvtools:
+    provider: caprover
+```
+
+### 3. Docker Cache Optimization
+
+bruvtools generates **production-ready Dockerfiles** with optimizations:
+
+- ✅ **Smart layer ordering**: Dependencies installed before copying source code
+- ✅ **Alpine Linux base**: Smaller images (~20MB vs 200MB+), faster builds
+- ✅ **Security hardened**: Non-root user, minimal attack surface
+- ✅ **Signal handling**: Proper process management with dumb-init
+- ✅ **Production optimized**: Uses `npm ci`, proper caching, health checks
+- ✅ **Multi-stage builds**: Clean separation of build and runtime environments
+
+## 🌟 Core Features
+
+### Universal Deployment Commands
+- **Multi-Provider Support**: CapRover (ready), AWS, GCP, Railway, Kubernetes (coming soon)
+- **Unified Interface**: Same commands work across all providers
+- **Zero Vendor Lock-in**: Switch providers without changing your workflow
+
+### Service Management
+- **📊 Services Dashboard**: View all deployed applications with `bruvtools services`
+- **⚡ Real-time Status**: Check individual service health and metrics
+- **🔄 Scaling**: Horizontal scaling with simple commands
+- **📝 Logs**: Stream application logs in real-time
+
+### Development Workflow
+- **🐳 Smart Dockerization**: Auto-generates optimized Dockerfiles
+- **🔧 Configuration Management**: Global and project-specific configs
+- **🔌 Plugin Architecture**: Easy to extend with new providers
+- **🎯 Environment Validation**: Prevents deployment failures early
+
+## 🚀 Installation & Setup
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd bruvtools
+
 # Install dependencies
 npm install
 
-# Initialize in your project
-./bin/bruvtools.js init
+# Setup environment
+cp .env.example .env
+# Edit .env with your credentials
 
-# Deploy your app
-./bin/bruvtools.js deploy my-app
+# Configure your provider
+# Edit bruvtools.yml with your machine/domain settings
 
-# Scale your app
-./bin/bruvtools.js scale my-app 3
-
-# Check logs
-./bin/bruvtools.js logs my-app
+# You're ready to deploy!
+./bin/bruvtools.js services
 ```
 
-## 📋 Commands
+## 📖 Command Reference
 
-### Core Operations
-- `bruvtools deploy <app>` - Deploy application
-- `bruvtools create <app>` - Create new application
-- `bruvtools delete <app>` - Delete application
-- `bruvtools scale <app> <replicas>` - Scale application
-
-### Management
-- `bruvtools status <app>` - Check application status
-- `bruvtools logs <app>` - View application logs
-- `bruvtools test <app>` - Test application connectivity
-- `bruvtools list` - List all applications
-
-### Configuration
-- `bruvtools env <app> <key> [value]` - Manage environment variables
-- `bruvtools config --list` - Show current configuration
-- `bruvtools config --providers` - List available providers
-
-### Setup
-- `bruvtools init` - Initialize bruvtools in current directory
-
-## 🔧 Configuration
-
-bruvtools uses a hierarchical configuration system:
-
-1. **Project config** (`bruvtools.yml`) - Takes precedence
-2. **Global config** (`~/.bruvtools/config.yml`) - User defaults
-3. **Built-in defaults** - Fallback values
-
-### Example Configuration
-
-```yaml
-# bruvtools.yml
-default_provider: caprover
-
-providers:
-  caprover:
-    machine: my-caprover-machine
-    domain: example.com
-  
-  aws:
-    region: us-east-1
-    cluster: my-cluster
-
-projects:
-  my-app:
-    provider: caprover
-    port: 3000
-    replicas: 2
-```
-
-## 🔌 Providers
-
-### CapRover (✅ Ready)
-Battle-tested provider wrapping our proven `capgen.js` functionality.
-
+### Service Management
 ```bash
-bruvtools deploy my-app --provider caprover
+# View all deployed services with dashboard
+./bin/bruvtools.js services
+
+# Check individual service status
+./bin/bruvtools.js status <app-name>
+
+# View service logs
+./bin/bruvtools.js logs <app-name> [--follow]
+
+# Test service health
+./bin/bruvtools.js test <app-name>
 ```
 
-### AWS ECS (🚧 Coming Soon)
-Deploy to Amazon Elastic Container Service.
+### Deployment Operations
+```bash
+# Deploy from current directory
+./bin/bruvtools.js deploy <app-name>
 
-### Google Cloud Run (🚧 Coming Soon)
-Deploy to Google Cloud Run serverless platform.
+# Deploy from specific directory
+./bin/bruvtools.js deploy <app-name> --dir /path/to/app
 
-### Railway (🚧 Coming Soon)
-Deploy to Railway hosting platform.
+# Deploy with custom port
+./bin/bruvtools.js deploy <app-name> --port 3000
 
-### Kubernetes (🚧 Coming Soon)
-Deploy to any Kubernetes cluster.
+# Deploy with scaling
+./bin/bruvtools.js deploy <app-name> --scale 3
+```
 
-## 🏗️ Architecture
+### Application Management
+```bash
+# Create new application
+./bin/bruvtools.js create <app-name>
 
+# Scale application
+./bin/bruvtools.js scale <app-name> <replicas>
+
+# Restart application
+./bin/bruvtools.js restart <app-name>
+
+# Delete application
+./bin/bruvtools.js delete <app-name>
+
+# Set environment variables
+./bin/bruvtools.js env <app-name> <key> <value>
+```
+
+## 🎯 Real-World Usage Examples
+
+### Example 1: Go API Service (CNPJ Enricher)
+```bash
+# Deploy a Go application that serves Brazilian company data
+./bin/bruvtools.js deploy cnpj-enricher --dir /Users/username/go-projects/cnpj-enricher
+
+# The app automatically:
+# ✅ Detects Go 1.23.0 environment
+# ✅ Builds optimized Docker image with Alpine Linux
+# ✅ Configures PORT environment variable (defaults to 80 for CapRover)
+# ✅ Sets up health endpoints
+# ✅ Deploys to https://cnpj-enricher.bruvbot.com.br
+
+# Test the deployed API
+curl https://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181
+```
+
+### Example 2: Node.js Application
+```bash
+# Deploy a Node.js app with environment variables
+./bin/bruvtools.js deploy my-api --port 3000
+./bin/bruvtools.js env my-api NODE_ENV production
+./bin/bruvtools.js env my-api DATABASE_URL postgresql://...
+
+# Scale for production load
+./bin/bruvtools.js scale my-api 5
+```
+
+### Example 3: Development Workflow
+```bash
+# Check what's currently deployed
+./bin/bruvtools.js services
+
+# Output:
+# 📦 CapRover Services Dashboard
+#    Connected to: caprover1133onubuntu2204-s-1vcpu-2gb-amd-sfo3-01
+#    Domain: bruvbot.com.br
+#    Dashboard: https://captain.bruvbot.com.br
+# 
+# 🔍 Known Services:
+#    📦 cnpj-enricher
+#       URL: https://cnpj-enricher.bruvbot.com.br
+#       API: https://cnpj-enricher.bruvbot.com.br/ficha?cnpj=XXXXXXX
+#       Description: Brazilian company data API
+
+# Deploy updates
+./bin/bruvtools.js deploy cnpj-enricher
+
+# Monitor logs
+./bin/bruvtools.js logs cnpj-enricher --follow
+```
+
+## 🏗️ Architecture & Design
+
+### Provider Plugin System
 ```
 bruvtools/
-├── bin/                 # Executable entry point
 ├── lib/
-│   ├── core/           # Core CLI logic
-│   │   ├── cli.js      # Main CLI interface
-│   │   └── config.js   # Configuration management
-│   └── providers/      # Provider implementations
-│       ├── base.js     # Base provider class
-│       ├── caprover/   # CapRover provider
-│       ├── aws/        # AWS provider (coming soon)
-│       └── gcp/        # GCP provider (coming soon)
-└── config/             # Configuration templates
+│   ├── core/           # Core CLI framework
+│   ├── providers/      # Provider implementations
+│   │   ├── caprover/   # CapRover provider (fully implemented)
+│   │   ├── aws/        # AWS provider (coming soon)
+│   │   ├── gcp/        # GCP provider (coming soon)
+│   │   └── base.js     # Base provider interface
+│   └── utils/          # Shared utilities
 ```
 
-## 🚀 Development
+### Configuration Hierarchy
+1. **Global config**: `~/.bruvtools/config.yml`
+2. **Project config**: `./bruvtools.yml`
+3. **Environment variables**: `.env` file
+4. **Command arguments**: CLI flags
 
-### Adding a New Provider
+### Docker Generation
+bruvtools generates optimized Dockerfiles based on detected project type:
 
-1. Create provider directory: `lib/providers/myprovider/`
-2. Implement provider class extending `BaseProvider`
-3. Register in `lib/core/cli.js`
+```dockerfile
+# Example generated Dockerfile for Go project
+FROM golang:1.23.0-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=builder /app/main .
+EXPOSE 80
+ENV PORT=80
+CMD ["./main"]
+```
+
+## 🔧 Advanced Configuration
+
+### Custom Provider Settings
+```yaml
+# bruvtools.yml
+providers:
+  caprover:
+    machine: your-caprover-machine-name
+    domain: your-domain.com
+    timeout: 300
+  aws:
+    region: us-east-1
+    profile: production
+```
+
+### Project-Specific Overrides
+```yaml
+# Per-project settings
+projects:
+  my-api:
+    provider: caprover
+    scale: 3
+    port: 3000
+    env:
+      NODE_ENV: production
+```
+
+## 🔒 Security Best Practices
+
+- **Environment Variables**: Never commit `.env` files to version control
+- **Minimal Images**: Alpine Linux base images reduce attack surface
+- **Non-Root Execution**: Containers run as non-privileged users
+- **Secrets Management**: Use provider-native secret management when possible
+- **Access Control**: Configure proper IAM/RBAC for each provider
+
+## ⚠️ CapRover Environment Variable Gotchas
+
+### The Problem
+CapRover can have issues with environment variables not being properly passed to containers or being overridden by platform defaults. This can cause applications to fail silently or behave unexpectedly in production.
+
+### The Solution: Defensive Programming
+**Your applications should always have sensible hardcoded defaults** while still respecting environment variables when available:
+
+```go
+// ✅ GOOD: Go example with fallback
+port := os.Getenv("PORT")
+if port == "" {
+    port = "80"  // CapRover default
+}
+log.Printf("Starting server on port %s", port)
+```
 
 ```javascript
-// lib/providers/myprovider/index.js
-const BaseProvider = require('../base');
-
-class MyProvider extends BaseProvider {
-  async deploy(appName, options) {
-    // Implementation
-  }
-  
-  // ... implement other required methods
-}
-
-module.exports = MyProvider;
+// ✅ GOOD: Node.js example with fallback
+const port = process.env.PORT || 3000;
+const dbUrl = process.env.DATABASE_URL || "sqlite://./local.db";
+console.log(`Server starting on port ${port}`);
 ```
 
-### Running Tests
+```python
+# ✅ GOOD: Python example with fallback
+import os
+port = int(os.environ.get('PORT', 5000))
+debug = os.environ.get('DEBUG', 'false').lower() == 'true'
+```
 
+### Common CapRover Issues
+- **PORT conflicts**: CapRover expects port 80 by default, but your app might default to 8080
+- **Missing variables**: Environment variables set in CapRover UI might not reach the container
+- **Override behavior**: CapRover might override your environment variables
+- **Container restart**: Variables might be lost during container restarts
+
+### bruvtools Mitigation
+bruvtools helps by:
+- ✅ **Auto-detecting** application defaults and adjusting for CapRover
+- ✅ **Validating** environment variables before deployment
+- ✅ **Generating** Dockerfiles with proper environment setup
+- ✅ **Setting** CapRover-compatible defaults (e.g., PORT=80)
+
+### Deployment Best Practices
 ```bash
-npm test
+# ✅ Test locally with different PORT values
+PORT=8080 go run main.go    # Should work
+PORT=3000 go run main.go    # Should work  
+go run main.go              # Should default to 80 or 8080
+
+# ✅ Deploy with bruvtools (handles PORT automatically)
+./bin/bruvtools.js deploy cnpj-enricher
+
+# ✅ Set additional environment variables if needed
+./bin/bruvtools.js env cnpj-enricher DEBUG true
+./bin/bruvtools.js env cnpj-enricher API_KEY your-key-here
 ```
 
-## 💡 Why bruvtools?
+## 🚧 Roadmap
 
-**The Problem**: Every cloud provider has different tools, APIs, and workflows. Switching providers means relearning everything and rewriting deployment scripts.
+### ✅ Completed
+- CapRover provider with full feature set
+- Docker image optimization and caching
+- Environment variable validation
+- Services dashboard command
+- Real-world Go application deployment
+- Production-ready Dockerfile generation
 
-**The Solution**: bruvtools provides a unified interface that abstracts away provider-specific differences while leveraging proven, battle-tested implementations.
+### 🔄 In Progress
+- Enhanced error handling and recovery
+- Configuration validation and migration
+- Provider health checks
 
-**The Result**: 
-- 🎯 Consistent workflow across all providers
-- 🔄 Easy provider switching
-- 📈 Reduced learning curve
-- 🛡️ No vendor lock-in
+### 📋 Planned
+- **AWS Provider**: ECS, Lambda, App Runner support
+- **GCP Provider**: Cloud Run, GKE integration  
+- **Railway Provider**: Simple deployments
+- **Kubernetes Provider**: Generic K8s deployments
+- **CI/CD Integration**: GitHub Actions, GitLab CI templates
+- **Monitoring**: Built-in metrics and alerting
+- **Database Management**: Provider-agnostic database operations
 
 ## 🤝 Contributing
 
-We welcome contributions! See our roadmap for planned providers and features.
+bruvtools uses a plugin architecture that makes adding new providers straightforward:
 
-### Roadmap
-- [ ] AWS ECS Provider
-- [ ] Google Cloud Run Provider  
-- [ ] Railway Provider
-- [ ] Kubernetes Provider
-- [ ] Interactive deployment wizard
-- [ ] Deployment templates
-- [ ] Multi-environment support
+1. Extend the `BaseProvider` class
+2. Implement required methods (`deploy`, `scale`, `delete`, etc.)
+3. Add provider-specific configuration
+4. Submit a pull request
+
+See `lib/providers/caprover/index.js` for a complete implementation example.
 
 ## 📄 License
 
 MIT License - see LICENSE file for details.
 
-## 🙋‍♂️ Support
+## 🆘 Support
 
-- 📖 Documentation: [bruvtools.dev](https://bruvtools.dev)
-- 🐛 Issues: [GitHub Issues](https://github.com/bruvtools/bruvtools/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/bruvtools/bruvtools/discussions)
+- **Documentation**: Visit the CapRover dashboard at `https://captain.your-domain.com`
+- **Issues**: Report bugs and feature requests on GitHub
+- **Community**: Join our discussions for help and best practices
 
 ---
 
-**Made with ❤️ by the bruvtools team** 
+**Deploy Anywhere, Manage Everything** - bruvtools makes cloud deployment simple, consistent, and vendor-agnostic. 
