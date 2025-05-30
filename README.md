@@ -163,7 +163,7 @@ npm list -g bruvtools
 
 ### ⚡ Quick Start (2 minutes)
 
-Once installed, get started immediately:
+Once installed, get started immediately with interactive setup:
 
 ```bash
 # 1. Create a new directory for testing
@@ -172,43 +172,77 @@ mkdir my-test-app && cd my-test-app
 # 2. Create a simple Node.js app
 echo 'console.log("Hello bruvtools!"); const http = require("http"); const server = http.createServer((req, res) => { res.writeHead(200, {"Content-Type": "text/plain"}); res.end("Hello from bruvtools!"); }); const PORT = process.env.PORT || 3000; server.listen(PORT, () => console.log(`Server running on port ${PORT}`));' > app.js
 
-# 3. Initialize bruvtools (creates bruvtools.yml)
+# 3. Interactive setup (creates both bruvtools.yml AND .env automatically!)
 bruvtools init
 
-# 4. Deploy your app
+# The init command will ask you:
+# ✅ Which cloud provider? (CapRover recommended)
+# ✅ CapRover machine name and domain
+# ✅ CapRover password (stored securely in .env)
+# ✅ Project name and default port
+# ✅ Any additional environment variables
+
+# 4. Deploy your app (everything is configured!)
 bruvtools deploy my-test-app
 
 # 5. Check your deployed services
 bruvtools services
 ```
 
+**🎯 Pro tip**: The interactive `bruvtools init` eliminates all manual configuration! No more:
+- ❌ Manually creating `.env` files
+- ❌ Manually creating `bruvtools.yml` files  
+- ❌ Copying configuration examples
+- ❌ Forgetting required environment variables
+
+Just run `bruvtools init` and answer the prompts! 🚀
+
 ### ⚙️ Initial Setup
 
-After successful installation, configure bruvtools for your projects:
+After successful installation, bruvtools offers two setup methods:
 
+**🎯 Option 1: Interactive Setup (Recommended)**
 ```bash
-# 1. Navigate to your project directory
+# Navigate to your project directory
 cd /path/to/your/project
 
-# 2. Create environment file with your CapRover credentials
+# Run interactive setup - creates everything automatically
+bruvtools init
+
+# ✅ Automatically creates:
+#    - bruvtools.yml (project configuration)
+#    - .env (environment variables with CAPROVER_PASSWORD)
+#    - Validates all required settings
+#    - Provides helpful defaults
+
+# Test the setup immediately
+bruvtools services
+# ✅ Should show: 📦 CapRover Services Dashboard
+```
+
+**🔧 Option 2: Manual Setup (Advanced)**
+For automation, CI/CD, or custom setups:
+```bash
+# 1. Non-interactive init (creates basic bruvtools.yml)
+bruvtools init --non-interactive
+
+# 2. Manually create .env file
 cp .env.example .env
 # Edit .env and set: CAPROVER_PASSWORD=your_actual_password
 
-# 3. Create bruvtools configuration
-cat > bruvtools.yml << EOF
-default_provider: caprover
-providers:
-  caprover: 
-    machine: your-caprover-machine-name
-    domain: your-domain.com
-projects:
-  $(basename $(pwd)):
-    provider: caprover
-EOF
+# 3. Manually edit bruvtools.yml if needed
+# provider settings, custom domains, etc.
+```
 
-# 4. Test the setup
-bruvtools services
-# ✅ Should show: 📦 CapRover Services Dashboard
+**🔄 Reconfiguration**
+Need to change settings later?
+```bash
+# Reconfigure everything interactively
+bruvtools configure
+
+# Or reconfigure specific parts:
+bruvtools configure --provider-only  # Just provider settings
+bruvtools configure --env-only       # Just environment variables
 ```
 
 ### 🆘 Troubleshooting Installation
@@ -267,6 +301,30 @@ nvm use node
 ```
 
 ## 📖 Command Reference
+
+### Setup & Configuration
+```bash
+# Interactive setup (creates bruvtools.yml and .env)
+bruvtools init
+
+# Non-interactive setup for automation
+bruvtools init --non-interactive
+
+# Reconfigure existing setup
+bruvtools configure
+
+# Reconfigure only provider settings
+bruvtools configure --provider-only
+
+# Reconfigure only environment variables
+bruvtools configure --env-only
+
+# View current configuration
+bruvtools config --list
+
+# List available providers
+bruvtools config --providers
+```
 
 ### Service Management
 ```bash
