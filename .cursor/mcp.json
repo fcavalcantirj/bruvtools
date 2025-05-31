@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "bruvtools": {
+      "command": "node",
+      "args": ["mcp-server.js"],
+      "env": {
+        "CAPROVER_PASSWORD": "${CAPROVER_PASSWORD}",
+        "CAPROVER_DOMAIN": "${CAPROVER_DOMAIN}",
+        "CAPROVER_MACHINE": "${CAPROVER_MACHINE}"
+      }
+    }
+  }
+} 
