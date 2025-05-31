@@ -189,17 +189,27 @@ curl "http://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181"
 # Interactive setup
 bruvtools init
 
-# Deploy app (experimental)
-bruvtools deploy <app-name>
+# View deployed apps/services (multiple aliases)
+bruvtools services     # Show all deployed apps with URLs
+bruvtools apps         # Same as services (alias)
+bruvtools deployed     # Same as services (alias)  
+bruvtools dashboard    # Same as services (alias)
 
-# List services
-bruvtools services
+# Deploy and manage apps
+bruvtools create <app-name>    # Create app on CapRover
+bruvtools deploy <app-name>    # Deploy app (experimental)
+bruvtools status <app-name>    # Check app status
+bruvtools logs <app-name>      # View app logs
+bruvtools test <app-name>      # Test app connectivity
 
-# View logs (interactive)
-bruvtools logs <app-name>
+# Scale and configure
+bruvtools scale <app-name> <replicas>  # Scale app
+bruvtools configure                    # Reconfigure settings
 
-# Reconfigure
-bruvtools configure
+# Get help
+bruvtools help-commands        # Show usage examples
+bruvtools commands             # Same as help-commands (alias)
+bruvtools --help              # Show all commands
 ```
 
 ## 🛠️ Current Status

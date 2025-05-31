@@ -191,23 +191,26 @@ The beauty of MCP is that you don't need to remember exact tool names or paramet
 ### Project Setup
 - *"Initialize bruvtools for this React app"*
 - *"Set up deployment to my CapRover server"*
-- *"Configure this project for CapRover deployment"*
+
+### Viewing Deployed Apps/Services
+- *"Show me my deployed apps"* → Uses `bruvtools_services`
+- *"What services are running?"* → Uses `bruvtools_services`
+- *"List all my deployed applications"* → Uses `bruvtools_services`
+- *"Show me the dashboard"* → Uses `bruvtools_services`
+- *"What apps do I have deployed?"* → Uses `bruvtools_services`
 
 ### Deployment
-- *"Deploy this as a new app called 'frontend'"*
-- *"Push this Node.js API to production"*
-- *"Deploy the current directory to CapRover"*
+- *"Deploy this Node.js app as 'my-api'"* → Uses `bruvtools_deploy`
+- *"Create a new app called 'user-service'"* → Uses `bruvtools_create`
+- *"Deploy the current directory as 'frontend'"* → Uses `bruvtools_deploy`
 
-### Management
-- *"List all my running applications"*
-- *"Show me what's deployed on CapRover"*
-- *"Scale the frontend app to handle more traffic"*
-- *"Restart the API server"*
+### Monitoring & Management
+- *"Check the status of my-api"* → Uses `bruvtools_status`
+- *"Show me the logs for user-service"* → Uses `bruvtools_logs`
+- *"Scale my-api to 3 replicas"* → Uses `bruvtools_scale`
+- *"Test if my-api is working"* → Uses `bruvtools_test`
 
-### Debugging
-- *"Why is my app not working? Check the logs"*
-- *"Test if the API is responding correctly"*
-- *"Show me the status of all my services"*
+**💡 LLM-Friendly Design**: The `bruvtools_services` tool is specifically designed to handle various ways of asking about deployed apps, services, or dashboard information.
 
 ## 🔍 Troubleshooting
 
