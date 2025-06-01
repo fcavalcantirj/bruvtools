@@ -1,6 +1,6 @@
 {
   "name": "bruvtools",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Universal Cloud Deployment CLI - Deploy microservices to CapRover, AWS, GCP, or Kubernetes with the same simple commands. Zero vendor lock-in.",
   "main": "lib/core/cli.js",
   "bin": {
