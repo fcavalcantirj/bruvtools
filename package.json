@@ -1,7 +1,7 @@
 {
   "name": "bruvtools",
   "version": "0.2.16",
-  "description": "Universal Cloud Deployment CLI - Deploy Anywhere, Manage Everything",
+  "description": "🚀 Your Private App Platform - Deploy Node.js, Python, Go, Java & more to CapRover, AWS, GCP with one CLI. Features MCP integration for Cursor.com, smart collision detection, auto-SSL, and costs 80% less than Heroku. Transform any $5 server into your personal Vercel.",
   "main": "lib/core/cli.js",
   "bin": {
     "bruvtools": "bin/bruvtools.js"
@@ -26,6 +26,8 @@
   "keywords": [
     "deployment",
     "cloud",
+    "private-cloud",
+    "app-platform",
     "caprover",
     "aws",
     "gcp",
@@ -37,7 +39,27 @@
     "paas",
     "heroku-alternative",
     "vercel-alternative",
-    "universal-deployment"
+    "railway-alternative",
+    "universal-deployment",
+    "mcp",
+    "model-context-protocol",
+    "cursor",
+    "ai-integration",
+    "nodejs",
+    "python",
+    "golang", 
+    "java",
+    "php",
+    "ruby",
+    "multi-language",
+    "auto-ssl",
+    "zero-downtime",
+    "cost-effective",
+    "self-hosted",
+    "digitalocean",
+    "microservices",
+    "ci-cd",
+    "infrastructure"
   ],
   "author": {
     "name": "fcavalcantirj",
