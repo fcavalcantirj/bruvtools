@@ -44,7 +44,7 @@ The **easiest way** to get started is with DigitalOcean's one-click CapRover dep
 
 ```bash
 npm install -g bruvtools
-bruvtools --version  # Should show: 0.2.15
+bruvtools --version  # Should show: 0.2.16
 ```
 
 ### Step 3: Configure & Deploy (2 minutes)
@@ -132,7 +132,7 @@ chmod +x setup-mcp.sh
 npm install -g bruvtools
 
 # Verify MCP server is available
-bruvtools --version  # Should show: 0.2.15
+bruvtools --version  # Should show: 0.2.16
 ```
 
 #### Step 2: Configure Cursor.com MCP Settings
@@ -184,7 +184,7 @@ You: "Deploy this project as my-new-app"
 Claude: [Deploys your current project to CapRover]
 ```
 
-## 🎯 Enhanced Developer Experience (v0.2.15)
+## 🎯 Enhanced Developer Experience (v0.2.16)
 
 ### ✅ **Post-Deployment Health Verification**
 ```bash
@@ -478,7 +478,7 @@ curl "http://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181"
 npm install -g bruvtools caprover
 
 # 2. Verify installation
-bruvtools --version  # Should show: 0.2.15
+bruvtools --version  # Should show: 0.2.16
 caprover --version   # Should show: 2.x.x
 
 # 3. Deploy normally (same as Mac/Linux)
@@ -488,7 +488,7 @@ bruvtools deploy my-app
 
 ---
 
-**Requirements**: Node.js 16+ • **License**: MIT • **Version**: 0.2.15
+**Requirements**: Node.js 16+ • **License**: MIT • **Version**: 0.2.16
 
 ## 🤝 Contributing
 
