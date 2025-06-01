@@ -471,7 +471,7 @@ curl "http://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181"
 
 ## 🪟 Windows PowerShell Support
 
-✅ **Fully Supported!** bruvtools works seamlessly on Windows PowerShell.
+✅ **"Fully" Supported!** bruvtools works 'seamlessly' on Windows PowerShell. Well, it should °¿°
 
 ```powershell
 # 1. Install both tools
