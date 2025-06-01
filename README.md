@@ -30,7 +30,7 @@ Deploy Node.js, Go, Python, Java, PHP, Ruby, or any containerizable application 
 
 The **easiest way** to get started is with DigitalOcean's one-click CapRover deployment:
 
-[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue.svg)](https://marketplace.digitalocean.com/apps/caprover?action=deploy)
+[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue.svg)](https://marketplace.digitalocean.com/apps/caprover?action=deploy&refcode=6410aa23d3f3)
 
 **What this gives you:**
 - ✅ **$5/month server** with CapRover pre-installed
