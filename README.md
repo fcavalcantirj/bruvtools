@@ -86,6 +86,7 @@ With Model Context Protocol (MCP) support, you get a **revolutionary development
 | 🎯 **Smart suggestions** | AI recommends optimizations based on your code |
 
 **🤯 The Experience:**
+
 ```
 You: "Deploy this Node.js app to my-api-v2"
 Claude: ✅ Deploying to CapRover...
@@ -102,6 +103,8 @@ Claude: ✅ Scaled to 3 replicas, load balanced automatically
 ```
 
 **This is the future of development** - your AI pair programmer that can actually deploy and manage your infrastructure. No context switching, no separate terminals, no deployment dashboards. Just code, ask, and it's live.
+
+*See below for a real example of how Claude responds after successful setup.*
 
 ### 🔌 MCP Setup for Cursor.com (5 minutes)
 
@@ -183,6 +186,11 @@ Claude: [Shows your CapRover apps with URLs and status]
 You: "Deploy this project as my-new-app"
 Claude: [Deploys your current project to CapRover]
 ```
+
+**🎯 What You'll See After Successful Setup:**
+
+![MCP Services Response](public/images/services_screenshot.png)
+*Example of Claude showing your deployed services through MCP integration*
 
 ## 🎯 Enhanced Developer Experience (v0.2.16)
 
