@@ -17,12 +17,17 @@ fi
 
 echo "✅ bruvtools found: $(bruvtools --version)"
 
-# Install MCP SDK
-echo "📦 Installing MCP SDK..."
-npm install @modelcontextprotocol/sdk yaml
+# Check if we're in the bruvtools directory (mcp-server.js should exist)
+if [ ! -f "mcp-server.js" ]; then
+    echo "❌ mcp-server.js not found in current directory."
+    echo "💡 Please run this script from the bruvtools repository directory:"
+    echo "   git clone https://github.com/fcavalcantirj/bruvtools.git"
+    echo "   cd bruvtools"
+    echo "   ./setup-mcp.sh"
+    exit 1
+fi
 
-# Make MCP server executable
-chmod +x mcp-server.js
+echo "✅ MCP server found: mcp-server.js"
 
 # Create .cursor directory if it doesn't exist
 mkdir -p .cursor
@@ -43,8 +48,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 {
   "mcpServers": {
     "bruvtools": {
-      "command": "npx",
-      "args": ["-y", "bruvtools-mcp-server"],
+      "command": "node",
+      "args": ["$(pwd)/mcp-server.js"],
       "env": {
         "CAPROVER_PASSWORD": "\${CAPROVER_PASSWORD}",
         "CAPROVER_DOMAIN": "\${CAPROVER_DOMAIN}",
@@ -56,17 +61,24 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 EOF
     
     echo "✅ Global MCP configuration created at: $CURSOR_CONFIG_DIR/mcp.json"
-    echo "📦 Publishing MCP server to npm for global access..."
-    
-    # Create package for npm
-    cp mcp-server.js bruvtools-mcp-server.js
-    cp mcp-package.json package-mcp.json
-    
-    echo "🌐 To publish globally, run:"
-    echo "   npm publish package-mcp.json"
     
 else
     # Project-specific installation
+    cat > ".cursor/mcp.json" << EOF
+{
+  "mcpServers": {
+    "bruvtools": {
+      "command": "node",
+      "args": ["\${workspaceFolder}/mcp-server.js"],
+      "env": {
+        "CAPROVER_PASSWORD": "\${CAPROVER_PASSWORD}",
+        "CAPROVER_DOMAIN": "\${CAPROVER_DOMAIN}",
+        "CAPROVER_MACHINE": "\${CAPROVER_MACHINE}"
+      }
+    }
+  }
+}
+EOF
     echo "✅ Project MCP configuration created at: .cursor/mcp.json"
 fi
 
