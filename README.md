@@ -64,7 +64,7 @@ Claude: ✅ Scaled to 3 replicas, load balanced automatically
 npm install -g bruvtools
 
 # Verify MCP server is available
-bruvtools --version  # Should show: 0.2.11
+bruvtools --version  # Should show: 0.2.15
 ```
 
 ### Step 2: Configure Cursor.com MCP Settings
@@ -184,7 +184,7 @@ The **easiest way** to get started is with DigitalOcean's one-click CapRover dep
 
 ```bash
 npm install -g bruvtools
-bruvtools --version  # Should show: 0.2.11
+bruvtools --version  # Should show: 0.2.15
 ```
 
 ### Step 3: Configure & Deploy (2 minutes)
@@ -212,7 +212,7 @@ bruvtools deploy my-app
 
 **🎯 That's it!** Your private app platform is ready. Your app is now live at `https://my-app.yourdomain.com` with automatic SSL.
 
-## 🎯 Enhanced Developer Experience (v0.2.11)
+## 🎯 Enhanced Developer Experience (v0.2.15)
 
 **🚀 Smart Deployment with Auto-Healing**
 
@@ -364,7 +364,7 @@ bruvtools deploy your-app-name
 npm install -g bruvtools caprover
 
 # 2. Verify installation
-bruvtools --version  # Should show: 0.2.11
+bruvtools --version  # Should show: 0.2.15
 caprover --version   # Should show: 2.x.x
 
 # 3. Deploy normally (same as Mac/Linux)
@@ -499,7 +499,7 @@ curl http://your-app.your-domain.com
 
 ---
 
-**Requirements**: Node.js 16+ • **License**: MIT • **Version**: 0.2.11
+**Requirements**: Node.js 16+ • **License**: MIT • **Version**: 0.2.15
 
 ## 🤝 Contributing
 

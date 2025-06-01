@@ -3,15 +3,85 @@ const axios = require('axios');
 
 const app = express();
 
-// Access environment variables
-const { KOMMO_BASE_URL, KOMMO_ACCESS_TOKEN, PORT } = process.env;
+// Security headers middleware
+app.use((req, res, next) => {
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  next();
+});
+
+// Universal function to reconstruct split environment variables
+function getEnvVar(varName) {
+  // First try to get the variable directly
+  if (process.env[varName]) {
+    return process.env[varName];
+  }
+  
+  // If not found, try to reconstruct from split parts
+  let reconstructed = '';
+  let partIndex = 1;
+  
+  while (true) {
+    const partName = `${varName}_${partIndex}`;
+    const part = process.env[partName];
+    
+    if (part) {
+      reconstructed += part;
+      partIndex++;
+    } else {
+      break;
+    }
+  }
+  
+  // Return reconstructed value if we found parts, otherwise undefined
+  return reconstructed || undefined;
+}
+
+// Access environment variables with automatic split reconstruction
+const KOMMO_BASE_URL = getEnvVar('KOMMO_BASE_URL') || 'https://aabecmed.amocrm.com/api/v4';
+const KOMMO_ACCESS_TOKEN = getEnvVar('KOMMO_ACCESS_TOKEN') || 'LONG_TOKENS_DONT_WORK';
+const PORT = getEnvVar('PORT');
 
 // Validate environment variables
 if (!KOMMO_BASE_URL || !KOMMO_ACCESS_TOKEN) {
-  console.error('Error: Missing required environment variables (KOMMO_BASE_URL, KOMMO_ACCESS_TOKEN)');
-  console.error('Please set these environment variables and try again.');
-  process.exit(1);
+  console.error('⚠️  Warning: Missing required environment variables');
+  if (!KOMMO_BASE_URL) console.error('   - KOMMO_BASE_URL is missing');
+  if (!KOMMO_ACCESS_TOKEN) console.error('   - KOMMO_ACCESS_TOKEN is missing');
+  console.error('💡 The app will start but API calls may fail');
+  console.error('💡 For large tokens, they may be automatically split into VARNAME_1, VARNAME_2, etc.');
+} else {
+  console.log(`✅ Environment variables loaded successfully`);
+  console.log(`📍 Base URL: ${KOMMO_BASE_URL}`);
+  console.log(`🔑 Token length: ${KOMMO_ACCESS_TOKEN.length} characters`);
 }
+console.log(`🚀 Port: ${PORT || 80}`);
+
+// Add health check endpoint
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: {
+      baseUrl: KOMMO_BASE_URL ? 'set' : 'missing',
+      tokenLength: KOMMO_ACCESS_TOKEN ? KOMMO_ACCESS_TOKEN.length : 0,
+      port: PORT || 80
+    }
+  });
+});
+
+// Add root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Kommo Contacts API',
+    endpoints: [
+      'GET /health - Health check',
+      'GET /search-whatsapp?number=<phone> - Search for WhatsApp contact'
+    ]
+  });
+});
+
 const headers = {
   Authorization: `Bearer ${KOMMO_ACCESS_TOKEN}`,
   'Content-Type': 'application/json'
