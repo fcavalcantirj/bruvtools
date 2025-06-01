@@ -164,7 +164,7 @@ class BruvtoolsMCPServer {
           },
           {
             name: 'bruvtools_services',
-            description: 'List all deployed services and their status',
+            description: 'Show all deployed apps/services with URLs and status (use this for: "show deployed apps", "list services", "view dashboard", "what apps are running")',
             inputSchema: {
               type: 'object',
               properties: {},
