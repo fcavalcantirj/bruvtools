@@ -12,7 +12,20 @@ const app = express()
 
 // Add CORS middleware before other middleware
 app.use(cors({
-    origin: ['https://abecops.netlify.app', 'http://abecops.netlify.app'],
+    origin: [
+        'https://abecops.netlify.app', 
+        'http://abecops.netlify.app',
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'http://localhost:8080',
+        'http://localhost:8000',
+        'http://localhost:5173',
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:3001',
+        'http://127.0.0.1:8080',
+        'http://127.0.0.1:8000',
+        'http://127.0.0.1:5173'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'X-API-KEY', 'x-abec-token'],
     credentials: true
