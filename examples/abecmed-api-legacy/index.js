@@ -1,4 +1,6 @@
 const { PORT } = process.env
+const fs = require('fs');
+const path = require('path');
 
 const express = require("express")
 const bodyParser = require("body-parser")
@@ -99,8 +101,43 @@ function checkApiKey(req, res, next) {
     }
 }
 
+// Google Auth validation and client creation
+async function validateGoogleCredentials() {
+    console.log('\n🔐 Validating Google Credentials...');
+    
+    // Check for file-based credentials
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+        console.log(`🔍 GOOGLE_APPLICATION_CREDENTIALS: ${credentialsPath}`);
+        
+        if (fs.existsSync(credentialsPath)) {
+            try {
+                const credentialsContent = fs.readFileSync(credentialsPath, 'utf8');
+                JSON.parse(credentialsContent);
+                console.log('✅ GOOGLE_APPLICATION_CREDENTIALS: Valid credentials file found');
+                return { valid: true, path: credentialsPath };
+            } catch (error) {
+                console.log(`❌ GOOGLE_APPLICATION_CREDENTIALS: Invalid JSON in file ${credentialsPath}`);
+                return { valid: false, error: 'Invalid JSON in credentials file' };
+            }
+        } else {
+            console.log(`❌ GOOGLE_APPLICATION_CREDENTIALS: File not found at ${credentialsPath}`);
+            return { valid: false, error: 'Credentials file not found' };
+        }
+    }
+    
+    console.log('⚠️  GOOGLE_APPLICATION_CREDENTIALS environment variable not set');
+    return { valid: false, error: 'GOOGLE_APPLICATION_CREDENTIALS not configured' };
+}
+
 // Google Auth client creation
 async function createGoogleAuthClient() {
+    const validation = await validateGoogleCredentials();
+    
+    if (!validation.valid) {
+        throw new Error(`Google Credentials Error: ${validation.error}`);
+    }
+    
     // Check if JSON credentials are provided via environment variable
     if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
         const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
@@ -217,4 +254,25 @@ app.get('/patient-search', checkApiKey, async (req, res) => {
 
 // Start server
 const microservicePort = PORT || 80;
-app.listen(microservicePort, '0.0.0.0', () => console.log(`🚀 Patient Search Microservice running on port ${microservicePort}`)) 
+
+// Validate Google credentials before starting server
+validateGoogleCredentials().then((validation) => {
+    if (validation.valid) {
+        console.log('🎯 Google Sheets integration ready');
+    } else {
+        console.log('⚠️  Google Sheets integration may not work properly');
+        console.log(`   Error: ${validation.error}`);
+    }
+    
+    app.listen(microservicePort, '0.0.0.0', () => {
+        console.log(`🚀 Patient Search Microservice running on port ${microservicePort}`);
+        console.log('📊 Google Sheets Status:', validation.valid ? '✅ Ready' : '❌ Not configured');
+    });
+}).catch((error) => {
+    console.error('❌ Failed to validate Google credentials:', error.message);
+    console.log('🚀 Starting server anyway (Google Sheets will not work)');
+    app.listen(microservicePort, '0.0.0.0', () => {
+        console.log(`🚀 Patient Search Microservice running on port ${microservicePort}`);
+        console.log('📊 Google Sheets Status: ❌ Not configured');
+    });
+}); 
