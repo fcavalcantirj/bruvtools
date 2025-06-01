@@ -214,9 +214,9 @@ bruvtools deploy my-app
 
 ## 🎯 Enhanced Developer Experience (v0.2.15)
 
-**🚀 Smart Deployment with Auto-Healing**
+**🚀 Smart Deployment with Auto-Healing & Environment Variable Intelligence**
 
-bruvtools now includes intelligent deployment verification and auto-fixing:
+bruvtools now includes intelligent deployment verification, auto-fixing, and advanced environment variable handling:
 
 ### ✅ **Post-Deployment Health Verification**
 ```bash
@@ -237,6 +237,73 @@ bruvtools deploy my-app
 - **SSL Issues**: Provides clear guidance for certificate problems
 - **Container Crashes**: Shows debugging steps and common solutions
 
+### 🔐 **Intelligent Environment Variable Handling**
+
+**🚨 Large Environment Variable Detection & Auto-Splitting**
+
+bruvtools automatically detects when environment variables exceed platform limits and offers smart solutions:
+
+```bash
+bruvtools init
+# 🔍 Analyzing environment variables...
+# ⚠️  Large environment variable detected: JWT_TOKEN (1083 characters)
+# 💡 CapRover has ~1000 character limits on environment variables
+# 
+# Would you like to split this into smaller parts? (y/n): y
+# ✅ Splitting JWT_TOKEN into 3 parts (400 chars each)
+# ✅ Generated: JWT_TOKEN_1, JWT_TOKEN_2, JWT_TOKEN_3
+# ✅ Added reconstruction code to your .env file
+```
+
+**🔄 Automatic Token Reconstruction**
+
+Your app automatically reconstructs split environment variables:
+
+```javascript
+// Universal function (auto-generated in your project)
+function getEnvVar(varName) {
+  // First try to get the variable directly
+  if (process.env[varName]) {
+    return process.env[varName];
+  }
+  
+  // If not found, try to reconstruct from split parts
+  let reconstructed = '';
+  let partIndex = 1;
+  
+  while (true) {
+    const partName = `${varName}_${partIndex}`;
+    const part = process.env[partName];
+    
+    if (part) {
+      reconstructed += part;
+      partIndex++;
+    } else {
+      break;
+    }
+  }
+  
+  return reconstructed || undefined;
+}
+
+// Use in your app
+const JWT_TOKEN = getEnvVar('JWT_TOKEN'); // Works with both single and split tokens!
+```
+
+### 🛡️ **Enhanced Security Checks**
+
+bruvtools now analyzes your code for potential deployment issues:
+
+```bash
+bruvtools deploy my-app
+# 🔍 Security Analysis:
+#    ✅ No hardcoded secrets detected
+#    ⚠️  Large environment variable detected (JWT_TOKEN: 1083 chars)
+#    💡 Recommendation: Use token splitting for CapRover compatibility
+#    ✅ Environment variable reconstruction pattern found
+#    ✅ Security headers implemented
+```
+
 ### 🚨 **Enhanced Error Messages**
 When deployments fail, you get actionable guidance:
 ```bash
@@ -251,6 +318,7 @@ When deployments fail, you get actionable guidance:
       • Instance count = 0 (check services output)
       • Missing dependencies in package.json
       • App crashes on startup (check logs)
+      • Environment variables too large (>1000 chars)
 ```
 
 ### 📊 **Improved Services Dashboard**
@@ -261,6 +329,7 @@ bruvtools services
 #    Status: ✅ Healthy (200)
 #    Instances: 0 ⚠️  CRITICAL - No instances running!
 #    💡 Fix with: bruvtools scale my-app 1
+#    🔑 Environment: 5 variables, 1 reconstructed from parts
 ```
 
 **🎯 Result**: From "deploy and pray" to "deploy with confidence"!
@@ -495,6 +564,146 @@ cat .env | grep CAPROVER_PASSWORD
 ```bash
 # Wait 2-3 minutes for deployment to complete, then try:
 curl http://your-app.your-domain.com
+```
+
+## ⚠️ Environment Variable Caveats & Limitations
+
+### 🚨 **Large Environment Variables (>1000 characters)**
+
+**The Problem**: CapRover and many cloud platforms have strict limits on environment variable sizes:
+- **CapRover**: ~1000 character limit per environment variable
+- **Heroku**: 32KB total for all environment variables
+- **AWS Lambda**: 4KB total for all environment variables
+- **Docker**: No hard limit, but performance degrades with very large values
+
+**Common Culprits**:
+- 🔑 **JWT Tokens**: Often 1000+ characters (especially with extensive claims)
+- 🔐 **Private Keys**: RSA/ECDSA keys can be 1600+ characters
+- 📄 **JSON Configs**: Large configuration objects
+- 🌐 **Base64 Encoded Data**: Images, certificates, or binary data
+
+### ✅ **bruvtools Solutions**
+
+**1. Automatic Detection & Splitting**
+```bash
+bruvtools init
+# Automatically detects variables >500 chars
+# Offers to split into 400-character chunks
+# Generates reconstruction code
+```
+
+**2. Manual Splitting** (if needed)
+```bash
+# Split a 1083-character JWT token
+export JWT_TOKEN_1="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIwMzQ3ZWI1OWY0NzE5NmJjZGM4OTU4OWY5YTFjOGNkMjU3Y2QyYTM3YTE0MTE0YWFhY2FhZTEzYjBkYTZjN2NhYTExZTFmYTY5OWZhNzVlIn0.eyJhdWQiOiJkZGQ3MjM4MC02NTNjLTQ5MTctYTRiYi01YjMxOTU0ZTNhY2EiLCJqdGkiOiIyMDM0N2ViNTlmNDcxOTZiY2RjODk1ODlmOWExYzhjZDI1N2NkMmEzN2ExNDExNGFhYWNhYWUxM2IwZGE2YzdjYWExMWUxZmE2OTlmYTc1ZSIsImlhdCI6MTc0ODQ4NDY4NSwibmJmIjoxNzQ4NDg0Njg1LCJleHAiOjE4Nzc5MDQwMDAsInN1YiI6IjEzMDIzOTY0IiwiZ3JhbnRfdHlwZSI6IiIsImFjY291bnRfaWQiOjMxNjM3NTUxLCJiYXNlX2RvbWFpbiI6ImtvbW1vLmNvbSIsInZlcnNpb24iOjIsInNjb3BlcyI6WyJjcm0iLCJmaWxlcyIsImZpbGVzX2RlbGV0ZSIsIm5vdGlmaWNhdGlvbnMiLCJwdXNoX25vdGlmaWNhdGlvbnMiXSwiaGFzaF91dWlkIjoiNjU5NDAxNGYtMTgzNS00ZmEwLTgxOGUtYzViYzk5Y2QxYWY4IiwiYXBpX2RvbWFpbiI6ImFwaS1nLmtvbW1vLmNvbSJ9.D1Yh6cVMqUdqBoeDR2NLX4EgFHbe5g0g1w_4__3Akg6m7jCFSKoWkbw-HFQuylayBuW4MEIzrkBeNTpM9JIj5ccFedCEpR303mZf4tpe_pUlE6Knk8cpvYGhZY1T0P-SWhO9khWxpiv1mxnhsQs53czvfwTjze0IonM7Mx3yvALbcXvwiW-j75aYUfwvU1xqHRFLjQ9BhHDVpk8vMAsEgrlzSnHUcGjD-Fj5FuwnH8_Dv7aueW-yWOJFGI9o7QTpttxIRZ2lbiqLmw6E1BXyQifZzZPNb1JWVehZX_vKjudZWLumHsej62yGdUe2eeyVLgLgtfRjgqzmVar7Ac62bw"
+export JWT_TOKEN_2="second_part_here"
+export JWT_TOKEN_3="third_part_here"
+
+# Use getEnvVar() function to reconstruct
+const token = getEnvVar('JWT_TOKEN'); // Automatically combines all parts
+```
+
+**3. Alternative Solutions**
+```bash
+# Option 1: Store in files (for very large data)
+echo "large_private_key_content" > /app/private.key
+# Then read in your app: fs.readFileSync('/app/private.key', 'utf8')
+
+# Option 2: Use external secret management
+# - AWS Secrets Manager
+# - HashiCorp Vault  
+# - Azure Key Vault
+# - Google Secret Manager
+
+# Option 3: Embed in code (for non-sensitive config)
+const config = {
+  // Large configuration object directly in code
+  // Good for: API endpoints, feature flags, non-secret settings
+  // Bad for: passwords, tokens, private keys
+};
+```
+
+### 🚨 **What NOT to Do**
+
+**❌ Don't ignore the warnings**
+```bash
+# This WILL fail on CapRover:
+export HUGE_JWT_TOKEN="very_long_token_over_1000_chars..."
+bruvtools deploy my-app  # ❌ Deployment fails silently
+```
+
+**❌ Don't commit split tokens to git**
+```bash
+# NEVER do this in your .env file:
+JWT_TOKEN_1=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6...
+JWT_TOKEN_2=second_part_of_secret_token...
+# This exposes your secrets in version control!
+```
+
+**❌ Don't use environment variables for binary data**
+```bash
+# This is problematic:
+export CERTIFICATE_FILE="LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0t..."  # Base64 encoded
+# Better: Store as file or use secret management service
+```
+
+### ✅ **Best Practices**
+
+**1. Use bruvtools automatic splitting**
+- Let bruvtools detect and split large variables
+- Use the generated `getEnvVar()` function
+- Test locally before deploying
+
+**2. Keep secrets out of git**
+```bash
+# Always in .gitignore:
+.env
+.env.local
+.env.production
+bruvtools.yml
+```
+
+**3. Use appropriate storage for data type**
+- **Short secrets** (<500 chars): Environment variables ✅
+- **Long tokens** (500-2000 chars): Split environment variables ✅
+- **Very long data** (>2000 chars): Files or secret management ✅
+- **Binary data**: Files, never environment variables ❌
+
+**4. Test your reconstruction**
+```javascript
+// Always test that your tokens work after reconstruction
+const token = getEnvVar('JWT_TOKEN');
+console.log(`Token length: ${token ? token.length : 0} characters`);
+if (!token || token.length < 100) {
+  throw new Error('JWT token reconstruction failed!');
+}
+```
+
+### 📋 **Platform-Specific Limits**
+
+| Platform | Per Variable | Total Limit | Notes |
+|----------|-------------|-------------|-------|
+| **CapRover** | ~1000 chars | No total limit | Hard limit, fails silently |
+| **Heroku** | 32KB | 32KB total | Includes variable names |
+| **AWS Lambda** | No per-var limit | 4KB total | Very restrictive |
+| **Docker** | No hard limit | Memory dependent | Performance impact |
+| **Kubernetes** | 1MB | No total limit | Base64 encoded in etcd |
+
+### 🔧 **Debugging Split Variables**
+
+```bash
+# Check if variables are properly set
+bruvtools configure --env-only
+# Shows all environment variables and their lengths
+
+# Test reconstruction locally
+node -e "
+const getEnvVar = require('./getEnvVar'); // Your reconstruction function
+console.log('Token length:', getEnvVar('JWT_TOKEN')?.length || 0);
+"
+
+# Check deployment logs for reconstruction errors
+bruvtools logs my-app | grep -i "token\|env\|reconstruction"
 ```
 
 ---
