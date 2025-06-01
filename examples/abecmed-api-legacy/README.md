@@ -193,14 +193,14 @@ curl https://your-app.your-domain.com/healthcheck
 ### Patient Search with CPF
 ```bash
 curl -X GET "https://your-app.your-domain.com/patient-search?cpf=024.804.267-00" \
-  -H "X-API-KEY: adcd2e35-787d-4dd2-ba8c-76085a99d2a4" \
+  -H "X-API-KEY: hdh-9dj-23hs9-cbd0-76085a99d2a4" \
   -H "Content-Type: application/json"
 ```
 
 ### Patient Search with Mobile
 ```bash
 curl -X GET "https://your-app.your-domain.com/patient-search?mobile=21987654321" \
-  -H "X-API-KEY: adcd2e35-787d-4dd2-ba8c-76085a99d2a4" \
+  -H "X-API-KEY: hdh-9dj-23hs9-cbd0-76085a99d2a4" \
   -H "Content-Type: application/json"
 ```
 
