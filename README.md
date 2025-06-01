@@ -73,7 +73,7 @@ The **easiest way** to get started is with DigitalOcean's one-click CapRover dep
 
 ```bash
 npm install -g bruvtools
-bruvtools --version  # Should show: 0.2.10
+bruvtools --version  # Should show: 0.2.11
 ```
 
 ### Step 3: Configure & Deploy (2 minutes)
@@ -97,6 +97,59 @@ bruvtools deploy my-app
 ```
 
 **🎯 That's it!** Your private app platform is ready. Your app is now live at `https://my-app.yourdomain.com` with automatic SSL.
+
+## 🎯 Enhanced Developer Experience (v0.2.11)
+
+**🚀 Smart Deployment with Auto-Healing**
+
+bruvtools now includes intelligent deployment verification and auto-fixing:
+
+### ✅ **Post-Deployment Health Verification**
+```bash
+bruvtools deploy my-app
+# ✅ Step 1: Creating app...
+# ✅ Step 2: Packaging...  
+# ✅ Step 3: Deploying...
+# ✅ Step 4: Enabling SSL...
+# 🔍 Step 5: Verifying deployment health...
+#    ✅ Instance count: 1
+#    ✅ App is responding correctly!
+# 🎉 Deployment completed successfully!
+```
+
+### 🔧 **Auto-Fixing Common Issues**
+- **Instance Count = 0**: Automatically scales to 1 instance
+- **Port Mismatches**: Detects server.js vs Dockerfile port conflicts
+- **SSL Issues**: Provides clear guidance for certificate problems
+- **Container Crashes**: Shows debugging steps and common solutions
+
+### 🚨 **Enhanced Error Messages**
+When deployments fail, you get actionable guidance:
+```bash
+❌ Deployment failed: Container not responding
+
+🔍 Debugging tips:
+   1. Check app logs: bruvtools logs my-app
+   2. Check app status: bruvtools status my-app  
+   3. View all services: bruvtools services
+   4. Common issues:
+      • Port mismatch (server.js vs Dockerfile EXPOSE)
+      • Instance count = 0 (check services output)
+      • Missing dependencies in package.json
+      • App crashes on startup (check logs)
+```
+
+### 📊 **Improved Services Dashboard**
+```bash
+bruvtools services
+# 📦 my-app
+#    URL: https://my-app.yourdomain.com
+#    Status: ✅ Healthy (200)
+#    Instances: 0 ⚠️  CRITICAL - No instances running!
+#    💡 Fix with: bruvtools scale my-app 1
+```
+
+**🎯 Result**: From "deploy and pray" to "deploy with confidence"!
 
 ## 🏗️ CapRover Setup Details
 
@@ -168,7 +221,7 @@ bruvtools deploy your-app-name
 npm install -g bruvtools caprover
 
 # 2. Verify installation
-bruvtools --version  # Should show: 0.2.10
+bruvtools --version  # Should show: 0.2.11
 caprover --version   # Should show: 2.x.x
 
 # 3. Deploy normally (same as Mac/Linux)
@@ -301,7 +354,7 @@ curl http://your-app.your-domain.com
 
 ---
 
-**Requirements**: Node.js 16+ • **License**: MIT • **Version**: 0.2.10
+**Requirements**: Node.js 16+ • **License**: MIT • **Version**: 0.2.11
 
 ## 🤝 Contributing
 

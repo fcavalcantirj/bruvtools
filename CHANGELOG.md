@@ -5,7 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.10] - 2024-12-19
+## [0.2.11] - 2025-06-01
+
+### 🚀 Major UX Improvements - "Deploy with Confidence"
+
+**Enhanced Developer Experience:**
+- ✅ **Post-Deployment Health Verification**: Automatically checks instance count and app responsiveness after deployment
+- ✅ **Auto-Healing**: Detects instance count = 0 and automatically scales to 1 instance
+- ✅ **Port Mismatch Detection**: Security check now detects server.js vs Dockerfile EXPOSE port conflicts
+- ✅ **Enhanced Error Messages**: Deploy failures now show actionable debugging checklist
+- ✅ **Improved Services Dashboard**: Instance count = 0 highlighted as CRITICAL with fix command
+
+**Technical Improvements:**
+- Added `verifyDeploymentHealth()` function to quick-deploy workflow
+- Enhanced security check with port validation between server.js and Dockerfile
+- Improved services command with color-coded warnings and fix suggestions
+- Better error handling with specific debugging guidance
+- Automatic instance scaling when deployment health check fails
+
+**Developer Impact:**
+- Transforms deployment experience from "deploy and pray" to "deploy with confidence"
+- Reduces debugging time with proactive issue detection and auto-fixes
+- Clearer feedback on deployment status and health
+- Actionable guidance when things go wrong
+
+## [0.2.10] - 2025-05-31
 
 ### 🚀 Major Features
 - **Complete deployment system overhaul** - Full end-to-end deployment now works perfectly
