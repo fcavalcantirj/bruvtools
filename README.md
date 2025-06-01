@@ -189,7 +189,10 @@ Claude: [Deploys your current project to CapRover]
 
 **🎯 What You'll See After Successful Setup:**
 
-![MCP Services Response](public/images/services_screenshot.png)
+<div align="center">
+  <img src="docs/images/services_screenshot.png" alt="MCP Services Response" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px; margin: 10px 0;">
+</div>
+
 *Example of Claude showing your deployed services through MCP integration*
 
 ## 🎯 Enhanced Developer Experience (v0.2.16)
