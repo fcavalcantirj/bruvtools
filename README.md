@@ -53,7 +53,118 @@ Claude: ✅ Scaled to 3 replicas, load balanced automatically
 
 *The combination of bruvtools + CapRover + MCP + Cursor.com creates the most seamless development-to-production experience ever built.*
 
+## 🔌 MCP Setup for Cursor.com (5 minutes)
+
+**Transform your Cursor.com editor into a deployment powerhouse!**
+
+### Step 1: Install bruvtools MCP Server
+
+```bash
+# Install bruvtools globally (if not already installed)
+npm install -g bruvtools
+
+# Verify MCP server is available
+bruvtools --version  # Should show: 0.2.11
+```
+
+### Step 2: Configure Cursor.com MCP Settings
+
+1. **Open Cursor.com Settings**:
+   - Press `Cmd/Ctrl + ,` to open settings
+   - Search for "MCP" or go to Extensions → Model Context Protocol
+
+2. **Add bruvtools MCP Server**:
+   ```json
+   {
+     "mcpServers": {
+       "bruvtools": {
+         "command": "bruvtools",
+         "args": ["mcp"],
+         "env": {
+           "CAPROVER_PASSWORD": "your-caprover-password",
+           "CAPROVER_DOMAIN": "your-domain.com"
+         }
+       }
+     }
+   }
+   ```
+
+3. **Alternative: Use Local Configuration**:
+   If you have `bruvtools.yml` and `.env` files in your project:
+   ```json
+   {
+     "mcpServers": {
+       "bruvtools": {
+         "command": "bruvtools",
+         "args": ["mcp"],
+         "cwd": "${workspaceFolder}"
+       }
+     }
+   }
+   ```
+
+### Step 3: Restart Cursor.com
+
+- Close and reopen Cursor.com
+- The bruvtools MCP server will automatically connect
+- You'll see "bruvtools" in the MCP servers list
+
+### Step 4: Test the Integration
+
+Open any project in Cursor.com and try these commands with Claude:
+
+```
+You: "List all my deployed apps"
+Claude: [Shows your CapRover apps with URLs and status]
+
+You: "Deploy this project as my-new-app"
+Claude: [Deploys your current project to CapRover]
+
+You: "Show me the logs for my-app"
+Claude: [Streams real-time logs from your app]
+
+You: "Scale my-app to 3 replicas"
+Claude: [Scales your app and confirms the change]
+```
+
+### 🎯 **What You Get**
+
+- **🚀 Deploy from chat**: Just ask Claude to deploy your code
+- **📊 Real-time monitoring**: App status, logs, and metrics in your editor
+- **🔧 Infrastructure management**: Scale, restart, configure apps via chat
+- **🧠 AI-powered insights**: Claude analyzes your code and suggests optimizations
+- **⚡ Zero context switching**: Everything happens in your editor
+
+### 🔧 **Troubleshooting MCP Setup**
+
+**❌ "bruvtools MCP server not found"**
+```bash
+# Make sure bruvtools is globally installed
+npm list -g bruvtools
+# If not found, reinstall:
+npm install -g bruvtools@latest
+```
+
+**❌ "Authentication failed"**
+```bash
+# Check your environment variables
+echo $CAPROVER_PASSWORD
+echo $CAPROVER_DOMAIN
+# Or verify your .env file exists in the project
+```
+
+**❌ "MCP server disconnected"**
+- Restart Cursor.com
+- Check that your CapRover server is accessible
+- Verify your `bruvtools.yml` configuration
+
+### 🎉 **Ready to Deploy!**
+
+Once MCP is set up, you have the most powerful development experience ever created. Just code, ask Claude, and watch your apps go live instantly!
+
 ## 🚀 Quick Start: Your Private Platform in 5 Minutes
+
+**🔌 Want the ultimate experience?** Set up [MCP Integration](#-mcp-setup-for-cursorcom-5-minutes) first to deploy directly from Cursor.com!
 
 ### Step 1: Create Your CapRover Server (2 minutes)
 
@@ -288,6 +399,8 @@ curl "http://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181"
 ```
 
 ## 📋 Common Commands
+
+**🔌 With MCP Integration**: Just ask Claude in Cursor.com: "Deploy this project" or "Show me my apps"
 
 ```bash
 # Interactive setup (one time)
