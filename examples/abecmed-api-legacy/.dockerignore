@@ -1,0 +1,61 @@
+# Google Service Account Keys - INCLUDE these in Docker build
+# !keys/
+# !keys/*.json
+
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Key backups and temporary key files (exclude these)
+keys/*.backup
+keys/*.bak
+keys/*-temp.json
+
+# Logs
+logs
+*.log
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Test files
+test
+tests
+__tests__
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Build artifacts
+dist
+build
+
+# Temporary files
+tmp
+temp 
