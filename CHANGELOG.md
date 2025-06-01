@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.11] - 2025-06-01
 
+### 🔒 **SECURITY FIX**
+- **Removed bruvtools.yml from version control** - Configuration file contained sensitive machine names and domains
+- **Added bruvtools.yml to .gitignore** - Prevents future accidental commits of sensitive configuration
+- **Created bruvtools.yml.example** - Template file for users to copy and customize
+- **Added security warning to README** - Clear guidance about not committing configuration files
+
 ### 🚀 Major UX Improvements - "Deploy with Confidence"
 
 **Enhanced Developer Experience:**
