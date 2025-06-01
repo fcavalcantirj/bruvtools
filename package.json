@@ -9,7 +9,11 @@
   "files": [
     "bin/",
     "lib/",
+    "examples/",
     "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
     ".env.example"
   ],
   "scripts": {
