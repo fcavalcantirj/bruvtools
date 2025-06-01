@@ -1,9 +1,24 @@
+# bruvtools Configuration (NON-SECRETS)
+# Copy this file to bruvtools.yml and customize for your setup
+# ⚠️  NEVER commit bruvtools.yml to version control!
+
 default_provider: caprover
+
 providers:
   caprover: 
     machine: your-caprover-machine-name
     domain: your-domain.com
+    
 projects:
   your-project-name:
+    provider: caprover
+    port: 80
+    
+  # Example: Multiple environments
+  my-app-dev:
+    provider: caprover
+    port: 3000
+    
+  my-app-prod:
     provider: caprover
     port: 80 

@@ -85,8 +85,10 @@ cd bruvtools/examples/hello-world
 
 # Setup bruvtools (one time)
 bruvtools init
-# Enter your CapRover domain and credentials
-# ⚠️  IMPORTANT: Never commit bruvtools.yml to version control!
+# This creates:
+# - bruvtools.yml (configuration: machine names, domains, projects)
+# - .env (secrets: passwords, API keys)
+# ⚠️  IMPORTANT: Never commit bruvtools.yml or .env to version control!
 
 # Deploy with smart auto-creation and collision detection
 bruvtools deploy my-app
@@ -151,6 +153,35 @@ bruvtools services
 ```
 
 **🎯 Result**: From "deploy and pray" to "deploy with confidence"!
+
+## 🔧 Configuration Files
+
+bruvtools uses a clean separation between configuration and secrets:
+
+### 📄 **bruvtools.yml** - Configuration (Non-Secrets)
+```yaml
+default_provider: caprover
+providers:
+  caprover: 
+    machine: your-caprover-machine-name
+    domain: your-domain.com
+projects:
+  my-app:
+    provider: caprover
+    port: 80
+```
+
+### 🔐 **.env** - Secrets Only
+```bash
+# CapRover Authentication
+CAPROVER_PASSWORD=your-caprover-password
+
+# Optional: App secrets
+DATABASE_URL=postgresql://user:pass@host:port/db
+API_KEY=your-api-key
+```
+
+**⚠️ Security**: Both files are automatically added to `.gitignore` and should NEVER be committed to version control.
 
 ## 🏗️ CapRover Setup Details
 
