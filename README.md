@@ -239,9 +239,9 @@ bruvtools deploy my-app
 
 ### 🔐 **Intelligent Environment Variable Handling**
 
-**🚨 Large Environment Variable Detection & Auto-Splitting**
+**🚨 Large Environment Variable Detection & Auto-Splitting** ⚠️ **EXPERIMENTAL**
 
-bruvtools automatically detects when environment variables exceed platform limits and offers smart solutions:
+bruvtools can detect when environment variables exceed platform limits and offers smart solutions (currently experimental):
 
 ```bash
 bruvtools init
@@ -249,18 +249,16 @@ bruvtools init
 # ⚠️  Large environment variable detected: JWT_TOKEN (1083 characters)
 # 💡 CapRover has ~1000 character limits on environment variables
 # 
-# Would you like to split this into smaller parts? (y/n): y
-# ✅ Splitting JWT_TOKEN into 3 parts (400 chars each)
-# ✅ Generated: JWT_TOKEN_1, JWT_TOKEN_2, JWT_TOKEN_3
-# ✅ Added reconstruction code to your .env file
+# ⚠️  EXPERIMENTAL: Auto-splitting feature is in development
+# 💡 For now, manually split large variables or embed in code
 ```
 
-**🔄 Automatic Token Reconstruction**
+**🔄 Manual Token Reconstruction** ✅ **WORKING**
 
-Your app automatically reconstructs split environment variables:
+You can manually implement split environment variables using this pattern:
 
 ```javascript
-// Universal function (auto-generated in your project)
+// Universal function (manually add to your project)
 function getEnvVar(varName) {
   // First try to get the variable directly
   if (process.env[varName]) {
@@ -292,14 +290,14 @@ const JWT_TOKEN = getEnvVar('JWT_TOKEN'); // Works with both single and split to
 
 ### 🛡️ **Enhanced Security Checks**
 
-bruvtools now analyzes your code for potential deployment issues:
+bruvtools analyzes your code for potential deployment issues:
 
 ```bash
 bruvtools deploy my-app
 # 🔍 Security Analysis:
 #    ✅ No hardcoded secrets detected
 #    ⚠️  Large environment variable detected (JWT_TOKEN: 1083 chars)
-#    💡 Recommendation: Use token splitting for CapRover compatibility
+#    💡 Recommendation: Manually split tokens or embed in code (auto-split experimental)
 #    ✅ Environment variable reconstruction pattern found
 #    ✅ Security headers implemented
 ```
@@ -584,26 +582,26 @@ curl http://your-app.your-domain.com
 
 ### ✅ **bruvtools Solutions**
 
-**1. Automatic Detection & Splitting**
+**1. Automatic Detection & Splitting** ⚠️ **EXPERIMENTAL - NOT FULLY WORKING**
 ```bash
 bruvtools init
-# Automatically detects variables >500 chars
-# Offers to split into 400-character chunks
-# Generates reconstruction code
+# Detection works, but automatic splitting is experimental
+# Currently shows warnings but doesn't auto-generate split code
+# Manual implementation required (see below)
 ```
 
-**2. Manual Splitting** (if needed)
+**2. Manual Splitting** ✅ **WORKING** (recommended approach)
 ```bash
-# Split a 1083-character JWT token
+# Split a 1083-character JWT token manually
 export JWT_TOKEN_1="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIwMzQ3ZWI1OWY0NzE5NmJjZGM4OTU4OWY5YTFjOGNkMjU3Y2QyYTM3YTE0MTE0YWFhY2FhZTEzYjBkYTZjN2NhYTExZTFmYTY5OWZhNzVlIn0.eyJhdWQiOiJkZGQ3MjM4MC02NTNjLTQ5MTctYTRiYi01YjMxOTU0ZTNhY2EiLCJqdGkiOiIyMDM0N2ViNTlmNDcxOTZiY2RjODk1ODlmOWExYzhjZDI1N2NkMmEzN2ExNDExNGFhYWNhYWUxM2IwZGE2YzdjYWExMWUxZmE2OTlmYTc1ZSIsImlhdCI6MTc0ODQ4NDY4NSwibmJmIjoxNzQ4NDg0Njg1LCJleHAiOjE4Nzc5MDQwMDAsInN1YiI6IjEzMDIzOTY0IiwiZ3JhbnRfdHlwZSI6IiIsImFjY291bnRfaWQiOjMxNjM3NTUxLCJiYXNlX2RvbWFpbiI6ImtvbW1vLmNvbSIsInZlcnNpb24iOjIsInNjb3BlcyI6WyJjcm0iLCJmaWxlcyIsImZpbGVzX2RlbGV0ZSIsIm5vdGlmaWNhdGlvbnMiLCJwdXNoX25vdGlmaWNhdGlvbnMiXSwiaGFzaF91dWlkIjoiNjU5NDAxNGYtMTgzNS00ZmEwLTgxOGUtYzViYzk5Y2QxYWY4IiwiYXBpX2RvbWFpbiI6ImFwaS1nLmtvbW1vLmNvbSJ9.D1Yh6cVMqUdqBoeDR2NLX4EgFHbe5g0g1w_4__3Akg6m7jCFSKoWkbw-HFQuylayBuW4MEIzrkBeNTpM9JIj5ccFedCEpR303mZf4tpe_pUlE6Knk8cpvYGhZY1T0P-SWhO9khWxpiv1mxnhsQs53czvfwTjze0IonM7Mx3yvALbcXvwiW-j75aYUfwvU1xqHRFLjQ9BhHDVpk8vMAsEgrlzSnHUcGjD-Fj5FuwnH8_Dv7aueW-yWOJFGI9o7QTpttxIRZ2lbiqLmw6E1BXyQifZzZPNb1JWVehZX_vKjudZWLumHsej62yGdUe2eeyVLgLgtfRjgqzmVar7Ac62bw"
 export JWT_TOKEN_2="second_part_here"
 export JWT_TOKEN_3="third_part_here"
 
-# Use getEnvVar() function to reconstruct
-const token = getEnvVar('JWT_TOKEN'); // Automatically combines all parts
+# Add getEnvVar() function to your code (manual implementation)
+# Use getEnvVar('JWT_TOKEN') to reconstruct automatically
 ```
 
-**3. Alternative Solutions**
+**3. Alternative Solutions** ✅ **WORKING** (often better than splitting)
 ```bash
 # Option 1: Store in files (for very large data)
 echo "large_private_key_content" > /app/private.key
@@ -649,10 +647,11 @@ export CERTIFICATE_FILE="LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0t..."  # Base64 enco
 
 ### ✅ **Best Practices**
 
-**1. Use bruvtools automatic splitting**
-- Let bruvtools detect and split large variables
-- Use the generated `getEnvVar()` function
-- Test locally before deploying
+**1. For large environment variables (current recommended approach)**
+- **Detection**: bruvtools will warn you about large variables ✅
+- **Auto-splitting**: Currently experimental, manual implementation required ⚠️
+- **Manual splitting**: Use the `getEnvVar()` function pattern shown above ✅
+- **Alternative**: Embed credentials in code for non-sensitive configs ✅
 
 **2. Keep secrets out of git**
 ```bash
@@ -692,18 +691,21 @@ if (!token || token.length < 100) {
 ### 🔧 **Debugging Split Variables**
 
 ```bash
-# Check if variables are properly set
-bruvtools configure --env-only
-# Shows all environment variables and their lengths
+# Check if variables are properly set (manual verification)
+echo "JWT_TOKEN_1 length: ${#JWT_TOKEN_1}"
+echo "JWT_TOKEN_2 length: ${#JWT_TOKEN_2}"
+echo "JWT_TOKEN_3 length: ${#JWT_TOKEN_3}"
 
-# Test reconstruction locally
+# Test reconstruction locally (if you implemented getEnvVar function)
 node -e "
-const getEnvVar = require('./getEnvVar'); // Your reconstruction function
+const getEnvVar = require('./your-getEnvVar-file'); // Your manual implementation
 console.log('Token length:', getEnvVar('JWT_TOKEN')?.length || 0);
 "
 
 # Check deployment logs for reconstruction errors
 bruvtools logs my-app | grep -i "token\|env\|reconstruction"
+
+# Note: bruvtools configure --env-only is experimental for auto-detection
 ```
 
 ---
