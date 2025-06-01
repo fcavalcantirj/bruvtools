@@ -40,7 +40,7 @@ function getEnvVar(varName) {
 }
 
 // Access environment variables with automatic split reconstruction
-const KOMMO_BASE_URL = getEnvVar('KOMMO_BASE_URL') || 'https://aabecmed.amocrm.com/api/v4';
+const KOMMO_BASE_URL = getEnvVar('KOMMO_BASE_URL') || 'YOUR_KOMMO_BASE_URL';
 const KOMMO_ACCESS_TOKEN = getEnvVar('KOMMO_ACCESS_TOKEN') || 'LONG_TOKENS_DONT_WORK';
 const PORT = getEnvVar('PORT');
 
