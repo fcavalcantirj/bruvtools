@@ -1,8 +1,0 @@
-default_provider: caprover
-providers:
-  caprover: 
-    machine: caprover1133onubuntu2204-s-1vcpu-2gb-amd-sfo3-01
-    domain: bruvbot.com.br
-projects:
-  bruvtools:
-    provider: caprover

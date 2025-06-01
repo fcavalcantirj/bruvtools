@@ -148,4 +148,10 @@ coverage/
 # Backup files
 *.bak
 *.backup
-*.orig 
+*.orig
+
+# bruvtools configuration files (contain sensitive machine names, domains, etc.)
+bruvtools.yml
+bruvtools.yaml
+.bruvtools.yml
+.bruvtools.yaml 

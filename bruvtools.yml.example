@@ -1,0 +1,9 @@
+default_provider: caprover
+providers:
+  caprover: 
+    machine: your-caprover-machine-name
+    domain: your-domain.com
+projects:
+  your-project-name:
+    provider: caprover
+    port: 80 

@@ -86,6 +86,7 @@ cd bruvtools/examples/hello-world
 # Setup bruvtools (one time)
 bruvtools init
 # Enter your CapRover domain and credentials
+# ⚠️  IMPORTANT: Never commit bruvtools.yml to version control!
 
 # Deploy with smart auto-creation and collision detection
 bruvtools deploy my-app
