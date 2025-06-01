@@ -368,14 +368,85 @@ bruvtools deploy my-app-prod    # Production
 
 ## 🌐 Live Examples
 
-- **Hello World**: [hello-world-fixed.bruvbot.com.br](http://hello-world-fixed.bruvbot.com.br)
-- **CNPJ Enricher**: [cnpj-enricher.bruvbot.com.br](http://cnpj-enricher.bruvbot.com.br)
-- **Kommo Integration**: [kommo-final.bruvbot.com.br](http://kommo-final.bruvbot.com.br)
+- **Hello World**: `https://hello-world.your-domain.com`
+- **CNPJ Enricher**: `https://cnpj-enricher.your-domain.com`
+- **Kommo Integration**: `https://kommo-contacts-api.your-domain.com`
+- **ABEC Med API**: `https://abecmed-api-legacy.your-domain.com`
 
-**Try the CNPJ API live:**
+**Example API calls:**
 ```bash
 # Get Brazilian company information by CNPJ (tax ID)
-curl "http://cnpj-enricher.bruvbot.com.br/ficha?cnpj=11222333000181"
+curl "https://cnpj-enricher.your-domain.com/ficha?cnpj=11222333000181"
+
+# Search patient by CPF (with API key)
+curl -X GET "https://abecmed-api-legacy.your-domain.com/patient-search?cpf=024.804.267-00" \
+  -H "X-API-KEY: your-api-key"
+
+# Test Kommo integration
+curl "https://kommo-contacts-api.your-domain.com/healthcheck"
+```
+
+## 📁 Example Projects
+
+The repository includes ready-to-deploy examples in the `examples/` directory:
+
+### 🚀 **Hello World** (`examples/hello-world`)
+Simple Node.js web server - perfect for testing your bruvtools setup.
+```bash
+cd bruvtools/examples/hello-world
+bruvtools deploy hello-world
+```
+
+### 💼 **CNPJ Enricher** (`examples/cnpj-enricher`)
+Brazilian company information API using external data sources.
+```bash
+cd bruvtools/examples/cnpj-enricher
+bruvtools deploy cnpj-enricher
+```
+
+### 📞 **Kommo Contacts API** (`examples/kommo-contacts-api`)
+CRM integration microservice for Kommo (AmoCRM) with contact management.
+```bash
+cd bruvtools/examples/kommo-contacts-api
+bruvtools deploy kommo-contacts-api
+```
+
+### 🏥 **ABEC Med API Legacy** (`examples/abecmed-api-legacy`)
+Healthcare patient search microservice with Google Sheets integration.
+
+**Features:**
+- Patient search by CPF or mobile number
+- Google Service Account authentication
+- Brazilian phone number normalization
+- API key authentication
+- Comprehensive logging
+
+```bash
+# Setup Google Service Account key first
+ls examples/abecmed-api-legacy/keys/abecmed-368dfd6bae7c.json
+
+# Deploy the service
+cd bruvtools/examples/abecmed-api-legacy
+bruvtools deploy abecmed-api-legacy
+
+# Test the API
+curl -X GET "https://abecmed-api-legacy.your-domain.com/patient-search?cpf=024.804.267-00" \
+  -H "X-API-KEY: adcd2e35-787d-4dd2-ba8c-76085a99d2a4"
+```
+
+**🎯 Each example includes:**
+- ✅ Complete source code
+- ✅ Dockerfile for deployment
+- ✅ captain-definition for CapRover
+- ✅ package.json with dependencies
+- ✅ Detailed README with API documentation
+- ✅ Environment variable configuration
+
+**🔧 Quick Deploy Any Example:**
+```bash
+git clone https://github.com/fcavalcantirj/bruvtools.git
+cd bruvtools/examples/[example-name]
+bruvtools deploy [app-name]
 ```
 
 ## 💰 Cost Comparison
